@@ -68,13 +68,14 @@
         <option value="10">10x10</option>
     </select>
     <button onclick="startGame()">Start Game</button>
+    <button onclick="toggleReveal()">Reveal</button>
 
     <div id="grid-container"></div>
 
     <script>
         const patterns = {
             1: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><path d="M 0 50 H 100 M 50 0 V 100" stroke="#000" stroke-width="3"/></svg>',
-            2: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><path d="M 0 0 L 100 100 M 0 100 L 100 0" stroke="#000" stroke-width="1"/></svg>',
+            2: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><path d="M 0 0 L 100 100 M 0 100 L 100 0" stroke="#000" stroke-width="1"/><circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="3"/></svg>',
             3: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="3"/></svg>',
             4: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><rect x="25" y="25" width="50" height="50" fill="none" stroke="#000" stroke-width="3"/></svg>',
             5: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><polygon points="0,50 50,0 100,50 50,100" fill="none" stroke="#000" stroke-width="3"/></svg>',
@@ -85,7 +86,7 @@
             10: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="20" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="40" fill="none" stroke="#000" stroke-width="3"/></svg>',
             11: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><path d="M 25 0 L 75 100 M 75 0 L 25 100" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="10" fill="none" stroke="#000" stroke-width="3"/></svg>',
             12: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><polygon points="25,0 75,0 100,25 100,75 75,100 25,100 0,75 0,25" fill="none" stroke="#000" stroke-width="3"/></svg>',
-            13: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><line x1="0" y1="0" x2="100" y2="100" stroke="#000" stroke-width="3"/><line x1="0" y1="100" x2="100" y2="0" stroke="#000" stroke-width="3"/></svg>',
+            13: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><path d="M 50 0 L 100 50 L 50 100 L 0 50 Z" fill="none" stroke="#000" stroke-width="3"/><line x1="0" y1="0" x2="100" y2="100" stroke="#000" stroke-width="3"/><line x1="0" y1="100" x2="100" y2="0" stroke="#000" stroke-width="3"/></svg>',
             14: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="50" r="30" fill="none" stroke="#000" stroke-width="3"/><line x1="50" y1="20" x2="50" y2="80" stroke="#000" stroke-width="3"/></svg>',
             15: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><polygon points="50,0 100,100 0,100" fill="none" stroke="#000" stroke-width="3"/><circle cx="50" cy="75" r="20" fill="none" stroke="#000" stroke-width="3"/></svg>',
             16: '<svg class="pattern" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="#000" stroke-width="3"/><polygon points="0,0 50,50 0,100" fill="none" stroke="#000" stroke-width="3"/><polygon points="100,0 50,50 100,100" fill="none" stroke="#000" stroke-width="3"/></svg>',
@@ -128,6 +129,7 @@
         let firstTile = null;
         let secondTile = null;
         let lockBoard = false;
+        let revealState = false; // To track the reveal state
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -164,8 +166,10 @@
                 gameNumbers.push(num, num); // Add each number twice
             });
 
-            // Shuffle the game patterns to randomize their order
-            gameNumbers = shuffle(gameNumbers);
+            // Shuffle the game patterns to randomize their order multiple times
+            for (let i = 0; i < 5; i++) {  // Shuffle multiple times for increased randomness
+                gameNumbers = shuffle(gameNumbers);
+            }
 
             // Create the game grid
             gameNumbers.forEach((num, index) => {
@@ -176,6 +180,8 @@
                 tile.onclick = () => revealTile(tile);
                 gridContainer.appendChild(tile);
             });
+
+            revealState = false; // Reset reveal state
         }
 
         function revealTile(tile) {
@@ -198,24 +204,39 @@
                 resetBoard();
             } else {
                 setTimeout(() => {
-                    firstTile.classList.add('hidden');
-                    secondTile.classList.add('hidden');
-
-                    // Clear the SVG content safely
-                    while (firstTile.firstChild) {
-                        firstTile.removeChild(firstTile.firstChild);
-                    }
-                    while (secondTile.firstChild) {
-                        secondTile.removeChild(secondTile.firstChild);
-                    }
-
+                    hideTile(firstTile);
+                    hideTile(secondTile);
                     resetBoard();
                 }, 300); // Shorter delay for mismatched tiles
             }
         }
 
+        function hideTile(tile) {
+            tile.classList.add('hidden');
+            // Clear the SVG content safely
+            while (tile.firstChild) {
+                tile.removeChild(tile.firstChild);
+            }
+        }
+
         function resetBoard() {
             [firstTile, secondTile, lockBoard] = [null, null, false];
+        }
+
+        function toggleReveal() {
+            const tiles = document.querySelectorAll('.tile');
+            revealState = !revealState; // Toggle reveal state
+
+            tiles.forEach(tile => {
+                if (revealState) {
+                    tile.classList.remove('hidden');
+                    tile.insertAdjacentHTML('afterbegin', tile.dataset.pattern); // Reveal all tiles
+                } else {
+                    if (!tile.classList.contains('matched')) {
+                        hideTile(tile); // Hide only unmatched tiles
+                    }
+                }
+            });
         }
     </script>
 
