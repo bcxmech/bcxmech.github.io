@@ -17,13 +17,15 @@
         }
         #game-container {
             text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
         }
         #grid {
             display: grid;
             gap: 10px;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 600px;
         }
         .cell {
             background-color: #ddd;
@@ -126,7 +128,7 @@
             grid.innerHTML = '';
             const gridDimension = Math.sqrt(gridSize);
             grid.style.gridTemplateColumns = `repeat(${gridDimension}, 1fr)`;
-            const cellSize = Math.min(600 / gridDimension, 100); // Adjust cell size based on grid dimension
+            const cellSize = Math.min(window.innerWidth / gridDimension - 20, 100); // Adjust cell size for mobile
             for (let i = 0; i < gridSize; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
