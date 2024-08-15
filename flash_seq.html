@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .cell {
+            background-color: #ddd;
+            border: 2px solid #999;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            aspect-ratio: 1 / 1;
+        }
+        .cell.highlight {
+            background-color: #ff9900;
+        }
+        .cell.correct {
+            background-color: #66cc66;
+        }
+        .cell.wrong {
+            background-color: #ff6666;
+        }
+        .cell.flushed {
+            background-color: #add8e6;
+        }
+        #status, #score {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+        #start, #restart {
+            font-size: 16px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        #start:hover, #restart:hover {
+            background-color: #45a049;
+        }
+        #restart {
+            display: none;
+        }
+        #dimension-select {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Flash Match</h1>
+        <label for="dimension-select">Select Grid Size:</label>
+        <select id="dimension-select">
+            <option value="3">3x3</option>
+            <option value="4">4x4</option>
+            <option value="5">5x5</option>
+            <option value="6">6x6</option>
+            <option value="7">7x7</option>
+        </select>
+        <div id="status">Press Start to begin</div>
+        <div id="score">Score: 0</div>
+        <div id="grid"></div>
+        <div id="buttons">
+            <button id="start">Start Game</button>
+            <button id="restart">Restart Game</button>
+        </div>
+    </div>
+    <script>
+        let gridSize = 9;
+        let sequence = [];
+        let playerSequence = [];
+        let score = 0;
+        let level = 1;
+        let gameActive = false;
+        let audioContext;
+
+        const soundFrequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50, 1174.66, 1318.51, 1396.91, 1567.98, 1760.00, 1975.53, 2093.00];
+
+        function initAudio() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function play8BitSound(frequency) {
+            if (!audioContext) return;
+            const oscillator = audioContext.createOscillator();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        function createGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            const gridDimension = Math.sqrt(gridSize);
+            grid.style.gridTemplateColumns = `repeat(${gridDimension}, 1fr)`;
+            const cellSize = Math.min(600 / gridDimension, 100); // Adjust cell size based on grid dimension
+            for (let i = 0; i < gridSize; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.style.width = `${cellSize}px`;
+                cell.style.height = `${cellSize}px`;
+                cell.addEventListener('click', () => cellClicked(i));
+                grid.appendChild(cell);
+            }
+        }
+
+        function generateSequence() {
+            sequence = [];
+            for (let i = 0; i < level; i++) {
+                sequence.push(Math.floor(Math.random() * gridSize));
+            }
+        }
+
+        function flashAllTiles(colorClass) {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => cell.classList.add(colorClass));
+            setTimeout(() => {
+                cells.forEach(cell => cell.classList.remove(colorClass));
+            }, 500);
+        }
+
+        function showSequence() {
+            let i = 0;
+            const intervalId = setInterval(() => {
+                if (i < sequence.length) {
+                    flashCell(sequence[i], 'highlight');
+                    play8BitSound(soundFrequencies[sequence[i]]);
+                    i++;
+                } else {
+                    clearInterval(intervalId);
+                    setTimeout(() => {
+                        gameActive = true;
+                        updateStatus("Your turn! Repeat the sequence.");
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        function flashCell(index, className) {
+            const cell = document.querySelector(`.cell[data-index="${index}"]`);
+            cell.classList.add(className);
+            setTimeout(() => cell.classList.remove(className), 300);
+        }
+
+        function cellClicked(index) {
+            if (!gameActive) return;
+
+            playerSequence.push(index);
+            play8BitSound(soundFrequencies[index]);
+            const correct = playerSequence[playerSequence.length - 1] === sequence[playerSequence.length - 1];
+
+            if (correct) {
+                flashCell(index, 'correct');
+                score++;
+                updateScore();
+                if (playerSequence.length === sequence.length) {
+                    gameActive = false;
+                    updateStatus("Correct! Next level!");
+                    setTimeout(nextLevel, 1000);
+                }
+            } else {
+                flashCell(index, 'wrong');
+                gameActive = false;
+                updateStatus("Game Over! Try again.");
+                document.getElementById('restart').style.display = 'inline-block';
+            }
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        function startGame() {
+            initAudio();
+            const dimension = parseInt(document.getElementById('dimension-select').value);
+            gridSize = dimension * dimension;
+            level = 1;
+            score = 0;
+            updateScore();
+            createGrid();
+            startLevel();
+        }
+
+        function startLevel() {
+            playerSequence = [];
+            gameActive = false;
+            updateStatus(`Level ${level}: Get ready...`);
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('restart').style.display = 'none';
+            flashAllTiles('flushed');
+            setTimeout(() => {
+                updateStatus(`Level ${level}: Watch the sequence`);
+                generateSequence();
+                setTimeout(showSequence, 1000);
+            }, 1000);
+        }
+
+        function nextLevel() {
+            level++;
+            startLevel();
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        document.getElementById('start').addEventListener('click', startGame);
+        document.getElementById('restart').addEventListener('click', restartGame);
+
+        createGrid();
+    </script>
+</body>
+</html>
