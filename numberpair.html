@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game with Math</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        #grid-container {
+            display: grid;
+            gap: 5px;
+            margin-top: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px; /* Maximum width for larger screens */
+        }
+
+        .tile {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s, border-color 0.3s;
+            aspect-ratio: 1 / 1; /* Ensures the tiles are square */
+            font-size: 2em;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .matched {
+            background-color: #88cc88; /* Green for matched pairs */
+            pointer-events: none;
+        }
+
+        .selected {
+            background-color: #ffffff; /* White for selected tiles */
+            border-color: #000; /* Black border for selected tiles */
+        }
+
+        #dimension-select {
+            margin: 20px 0;
+        }
+
+        #sum-prompt {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Memory Game with Math</h1>
+    <label for="dimension">Select Grid Dimension:</label>
+    <select id="dimension-select">
+        <option value="2">2x2</option>
+        <option value="4">4x4</option>
+        <option value="6">6x6</option>
+        <option value="8">8x8</option>
+        <option value="10">10x10</option>
+    </select>
+    <button onclick="startGame()">Start Game</button>
+
+    <div id="sum-prompt"></div>
+    <div id="grid-container"></div>
+
+    <script>
+        let firstTile = null;
+        let lockBoard = false; // Prevents further clicks while processing
+        let currentSum = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startGame() {
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
+            document.getElementById('sum-prompt').innerText = '';
+
+            const dimension = parseInt(document.getElementById('dimension-select').value);
+            const numTiles = dimension * dimension;
+            const numPairs = numTiles / 2;
+
+            gridContainer.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
+            gridContainer.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
+
+            let availableNumbers = Array.from({ length: 90 }, (_, i) => i + 10); // Two-digit numbers
+            let selectedNumbers = [];
+
+            // Select the required number of unique random numbers
+            for (let i = 0; i < numPairs; i++) {
+                const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+                selectedNumbers.push(availableNumbers[randomIndex]);
+                availableNumbers.splice(randomIndex, 1); // Remove selected number from the list
+            }
+
+            // Create pairs by calculating sums and adding constituent numbers
+            let gameNumbers = [];
+            selectedNumbers.forEach(num => {
+                const pair = Math.floor(Math.random() * availableNumbers.length);
+                gameNumbers.push({num, pair: availableNumbers[pair]});
+                availableNumbers.splice(pair, 1); // Remove the paired number
+            });
+
+            // Flatten the array to store pairs in a single array for grid assignment
+            let flatGameNumbers = [];
+            gameNumbers.forEach(({num, pair}) => {
+                flatGameNumbers.push(num, pair);
+            });
+
+            // Shuffle the numbers to randomize their order on the grid
+            flatGameNumbers = shuffle(flatGameNumbers);
+
+            // Set a random sum to prompt the user
+            const randomPair = gameNumbers[Math.floor(Math.random() * gameNumbers.length)];
+            currentSum = randomPair.num + randomPair.pair;
+            document.getElementById('sum-prompt').innerText = `Find the pair that sums to: ${currentSum}`;
+
+            // Create the game grid
+            flatGameNumbers.forEach((num, index) => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.dataset.number = num;
+                tile.dataset.index = index;
+                tile.innerText = num;
+                tile.onclick = () => selectTile(tile);
+                gridContainer.appendChild(tile);
+            });
+        }
+
+        function selectTile(tile) {
+            if (lockBoard || tile.classList.contains('matched') || tile.classList.contains('selected')) return;
+
+            tile.classList.add('selected');
+
+            if (!firstTile) {
+                firstTile = tile;
+                return;
+            }
+
+            lockBoard = true; // Lock the board to prevent further clicks
+
+            const firstNumber = parseInt(firstTile.dataset.number);
+            const secondNumber = parseInt(tile.dataset.number);
+
+            if (firstNumber + secondNumber === currentSum) {
+                firstTile.classList.add('matched');
+                tile.classList.add('matched');
+                firstTile.classList.remove('selected');
+                tile.classList.remove('selected');
+                resetBoard();
+                checkWin();
+            } else {
+                setTimeout(() => {
+                    firstTile.classList.remove('selected');
+                    tile.classList.remove('selected');
+                    resetBoard();
+                }, 500);
+            }
+        }
+
+        function resetBoard() {
+            [firstTile, lockBoard] = [null, false]; // Reset firstTile and unlock the board
+        }
+
+        function checkWin() {
+            const matchedTiles = document.querySelectorAll('.matched');
+            const totalTiles = document.querySelectorAll('.tile');
+            if (matchedTiles.length === totalTiles.length) {
+                document.getElementById('sum-prompt').innerText = 'Congratulations! You found all pairs!';
+            } else {
+                // Select a new sum to find
+                const unmatchedTiles = Array.from(totalTiles).filter(tile => !tile.classList.contains('matched'));
+                const randomIndex1 = Math.floor(Math.random() * unmatchedTiles.length);
+                let randomIndex2 = Math.floor(Math.random() * unmatchedTiles.length);
+                
+                while(randomIndex1 === randomIndex2) {
+                    randomIndex2 = Math.floor(Math.random() * unmatchedTiles.length);
+                }
+                
+                const newSum = parseInt(unmatchedTiles[randomIndex1].dataset.number) + parseInt(unmatchedTiles[randomIndex2].dataset.number);
+                currentSum = newSum;
+                document.getElementById('sum-prompt').innerText = `Find the pair that sums to: ${newSum}`;
+            }
+        }
+    </script>
+
+</body>
+</html>
