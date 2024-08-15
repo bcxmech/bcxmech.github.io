@@ -13,6 +13,14 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            background-color: #ffffff; /* Light mode background */
+            color: #000000; /* Light mode text color */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #2c2c2c; /* Dark mode background */
+            color: #f0f0f0; /* Dark mode text color */
         }
 
         #grid-container {
@@ -35,7 +43,13 @@
             aspect-ratio: 1 / 1; /* Ensures the tiles are square */
             font-size: 2em;
             font-weight: bold;
-            color: #000;
+            color: #000000;
+        }
+
+        body.dark-mode .tile {
+            background-color: #4a4a4a; /* Dark mode tile background */
+            color: #f0f0f0;
+            border-color: #666666;
         }
 
         .matched {
@@ -43,33 +57,99 @@
             pointer-events: none;
         }
 
+        body.dark-mode .matched {
+            background-color: #66aa66; /* Adjusted for dark mode */
+        }
+
         .selected {
-            background-color: #ffffff; /* White for selected tiles */
+            background-color: #e89595; /* Red for selected tiles */
             border-color: #000; /* Black border for selected tiles */
         }
 
-        #dimension-select {
-            margin: 20px 0;
+        body.dark-mode .selected {
+            background-color: #d66c6c; /* Adjusted for dark mode */
         }
 
         #sum-prompt {
             font-size: 1.5em;
             margin: 10px 0;
         }
+
+        .control-panel {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between the buttons */
+            margin-top: 20px;
+        }
+
+        #dimension-select {
+            margin: 0; /* Remove margin to make it compact */
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
     </style>
 </head>
 <body>
 
     <h1>Memory Game with Math</h1>
-    <label for="dimension">Select Grid Dimension:</label>
-    <select id="dimension-select">
-        <option value="2">2x2</option>
-        <option value="4">4x4</option>
-        <option value="6">6x6</option>
-        <option value="8">8x8</option>
-        <option value="10">10x10</option>
-    </select>
-    <button onclick="startGame()">Start Game</button>
+
+    <div class="control-panel">
+        <select id="dimension-select">
+            <option value="2">2x2</option>
+            <option value="4">4x4</option>
+            <option value="6">6x6</option>
+            <option value="8">8x8</option>
+            <option value="10">10x10</option>
+        </select>
+        <button onclick="startGame()">Start Game</button>
+        <label class="switch">
+            <input type="checkbox" id="dark-mode-toggle" onclick="toggleDarkMode()">
+            <span class="slider"></span>
+        </label>
+    </div>
 
     <div id="sum-prompt"></div>
     <div id="grid-container"></div>
@@ -197,6 +277,10 @@
                 currentSum = newSum;
                 document.getElementById('sum-prompt').innerText = `Find the pair that sums to: ${newSum}`;
             }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
         }
     </script>
 
