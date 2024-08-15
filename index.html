@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game with Patterns</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        #grid-container {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .tile {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s;
+        }
+
+        .hidden {
+            background-color: #cccccc;
+        }
+
+        .matched {
+            background-color: #88cc88;
+            pointer-events: none;
+        }
+
+        #dimension-select {
+            margin: 20px 0;
+        }
+
+        .pattern {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Memory Game with Patterns</h1>
+    <label for="dimension">Select Grid Dimension:</label>
+    <select id="dimension-select">
+        <option value="2">2x2</option>
+        <option value="4">4x4</option>
+        <option value="6">6x6</option>
+        <option value="8">8x8</option>
+    </select>
+    <button onclick="startGame()">Start Game</button>
+
+    <div id="grid-container"></div>
+
+    <script>
+        const patterns = [
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/><line x1="10" y1="90" x2="90" y2="10" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" stroke="black" fill="none" stroke-width="5"/><rect x="40" y="40" width="20" height="20" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5"/><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 H90 V90 H10 Z" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 L90 90 M10 90 L90 10" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,5 95,95 5,95" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="30" y="30" width="40" height="40" stroke="black" fill="none" stroke-width="5"/><rect x="10" y="10" width="80" height="80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="90" x2="90" y2="10" stroke="black" stroke-width="5"/><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,20 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="10" y="10" width="20" height="80" stroke="black" fill="none" stroke-width="5"/><rect x="70" y="10" width="20" height="80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 50 H90" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" stroke="black" fill="none" stroke-width="5"/><rect x="40" y="40" width="20" height="20" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5"/><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 H90 V90 H10 Z" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 L90 90 M10 90 L90 10" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,20 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" stroke="black" fill="none" stroke-width="5"/><line x1="15" y1="50" x2="85" y2="50" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 85,90 15,90" stroke="black" fill="none" stroke-width="5"/><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="5"/><circle cx="50" cy="50" r="15" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M20 20 L80 20 L80 80 L20 80 Z" stroke="black" fill="none" stroke-width="5"/><line x1="20" y1="50" x2="80" y2="50" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,5 95,95 5,95" stroke="black" fill="none" stroke-width="5"/><polygon points="50,20 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" stroke="black" fill="none" stroke-width="5"/><circle cx="50" cy="50" r="40" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 H90 V90 H10 Z" stroke="black" fill="none" stroke-width="5"/><path d="M20 20 H80 V80 H20 Z" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="25" y="25" width="50" height="50" stroke="black" fill="none" stroke-width="5"/><rect x="40" y="40" width="20" height="20" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" stroke="black" fill="none" stroke-width="5"/><polygon points="50,25 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/><line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" stroke="black" fill="none" stroke-width="5"/><line x1="50" y1="20" x2="50" y2="80" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" stroke="black" fill="none" stroke-width="5"/><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,5 95,95 5,95" stroke="black" fill="none" stroke-width="5"/><polygon points="50,15 85,85 15,85" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" stroke="black" fill="none" stroke-width="5"/><circle cx="50" cy="50" r="10" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/><line x1="90" y1="10" x2="10" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><path d="M10 10 H90 V90 H10 Z" stroke="black" fill="none" stroke-width="5"/><path d="M20 20 H80 V80 H20 Z" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="black" fill="none" stroke-width="5"/><circle cx="50" cy="50" r="15" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 85,90 15,90" stroke="black" fill="none" stroke-width="5"/><polygon points="50,20 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="10" y="10" width="20" height="80" stroke="black" fill="none" stroke-width="5"/><rect x="30" y="10" width="40" height="80" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/><line x1="25" y1="25" x2="75" y2="75" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="5"/><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" stroke="black" fill="none" stroke-width="5"/><polygon points="50,30 85,85 15,85" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" stroke="black" fill="none" stroke-width="5"/><rect x="30" y="30" width="40" height="40" stroke="black" fill="none" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><line x1="10" y1="50" x2="90" y2="50" stroke="black" stroke-width="5"/><line x1="50" y1="10" x2="50" y2="90" stroke="black" stroke-width="5"/><line x1="10" y1="10" x2="90" y2="90" stroke="black" stroke-width="5"/></svg>',
+            '<svg class="pattern" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" stroke="black" fill="none" stroke-width="5"/><polygon points="50,20 85,85 15,85" stroke="black" fill="none" stroke-width="5"/><polygon points="50,30 80,80 20,80" stroke="black" fill="none" stroke-width="5"/></svg>'
+        ];
+
+
+        let firstTile = null;
+        let secondTile = null;
+        let lockBoard = false;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startGame() {
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
+        
+            const dimension = parseInt(document.getElementById('dimension-select').value);
+            gridContainer.style.gridTemplateColumns = `repeat(${dimension}, 60px)`;
+            gridContainer.style.gridTemplateRows = `repeat(${dimension}, 60px)`;
+        
+            const numTiles = dimension * dimension;
+            let selectedPatterns = patterns.slice(0, numTiles / 2);
+            
+            // Create pairs of each selected pattern
+            let gamePatterns = [];
+            selectedPatterns.forEach(pattern => {
+                gamePatterns.push(pattern, pattern);
+            });
+        
+            // Shuffle the game patterns to randomize their order
+            gamePatterns = shuffle(gamePatterns);
+        
+            gamePatterns.forEach((pattern, index) => {
+                const tile = document.createElement('div');
+                tile.classList.add('tile', 'hidden');
+                tile.dataset.pattern = pattern;
+                tile.dataset.index = index;
+                tile.onclick = () => revealTile(tile);
+                gridContainer.appendChild(tile);
+            });
+        }
+
+        function revealTile(tile) {
+            if (lockBoard || tile.classList.contains('matched') || tile === firstTile) return;
+
+            tile.classList.remove('hidden');
+            tile.innerHTML = tile.dataset.pattern;
+
+            if (!firstTile) {
+                firstTile = tile;
+                return;
+            }
+
+            secondTile = tile;
+            lockBoard = true;
+
+            if (firstTile.dataset.pattern === secondTile.dataset.pattern) {
+                firstTile.classList.add('matched');
+                secondTile.classList.add('matched');
+                resetBoard();
+            } else {
+                setTimeout(() => {
+                    firstTile.classList.add('hidden');
+                    secondTile.classList.add('hidden');
+                    firstTile.innerHTML = '';
+                    secondTile.innerHTML = '';
+                    resetBoard();
+                }, 300); // Shorter delay for mismatched tiles
+            }
+        }
+
+        function resetBoard() {
+            [firstTile, secondTile, lockBoard] = [null, null, false];
+        }
+    </script>
+
+</body>
+</html>
