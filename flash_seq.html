@@ -11,19 +11,22 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         #game-container {
             text-align: center;
+            width: 100%;
+            max-width: 600px;
         }
         #grid {
             display: grid;
             gap: 10px;
             margin-bottom: 20px;
             width: 100%;
-            max-width: 600px;
         }
         .cell {
             background-color: #ddd;
@@ -124,23 +127,26 @@
         function createGrid() {
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
-        
-            const dimension = parseInt(document.getElementById('dimension-select').value);
-            gridSize = dimension * dimension; // Calculate the total number of cells based on dimension
-        
-            grid.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
-            grid.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
-        
+            const gridDimension = Math.sqrt(gridSize);
+            grid.style.gridTemplateColumns = `repeat(${gridDimension}, 1fr)`;
+            
+            // Calculate the available width for the grid
+            const gameContainer = document.getElementById('game-container');
+            const availableWidth = gameContainer.offsetWidth;
+            
+            // Calculate cell size based on available width and grid dimension
+            const cellSize = (availableWidth - (gridDimension - 1) * 10) / gridDimension; // 10px gap between cells
+            
             for (let i = 0; i < gridSize; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.dataset.index = i;
-        
-                // Cells will automatically adjust their size based on the grid container's size and grid-template properties
+                cell.style.width = `${cellSize}px`;
+                cell.style.height = `${cellSize}px`;
+                cell.addEventListener('click', () => cellClicked(i));
                 grid.appendChild(cell);
             }
         }
-        
 
         function generateSequence() {
             sequence = [];
@@ -248,6 +254,7 @@
 
         document.getElementById('start').addEventListener('click', startGame);
         document.getElementById('restart').addEventListener('click', restartGame);
+        window.addEventListener('resize', createGrid);
 
         createGrid();
     </script>
