@@ -10,6 +10,9 @@
             flex-direction: column;
             align-items: center;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         #grid-container {
@@ -20,8 +23,6 @@
         }
 
         .tile {
-            width: 100px;
-            height: 100px;
             background-color: #f0f0f0;
             display: flex;
             justify-content: center;
@@ -29,6 +30,7 @@
             cursor: pointer;
             border: 1px solid #ccc;
             transition: background-color 0.3s;
+            position: relative;
         }
 
         .hidden {
@@ -45,8 +47,47 @@
         }
 
         .pattern {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 1200px) {
+            .tile {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1199px) {
+            .tile {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            .tile {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #grid-container {
+                gap: 5px;
+            }
+            .tile {
+                width: calc(100vw / 5 - 10px); /* Calculate based on viewport width */
+                height: calc(100vw / 5 - 10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tile {
+                width: calc(100vw / 4 - 8px); /* Adjust for small screens */
+                height: calc(100vw / 4 - 8px);
+            }
         }
     </style>
 </head>
@@ -139,8 +180,8 @@
             const numTiles = dimension * dimension;
             const numPairs = numTiles / 2;
 
-            gridContainer.style.gridTemplateColumns = `repeat(${dimension}, 100px)`;
-            gridContainer.style.gridTemplateRows = `repeat(${dimension}, 100px)`;
+            gridContainer.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
+            gridContainer.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
 
             let availableNumbers = Array.from({ length: 50 }, (_, i) => i + 1);
             let selectedNumbers = [];
