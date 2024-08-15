@@ -17,15 +17,13 @@
         }
         #game-container {
             text-align: center;
-            width: 100%;
-            max-width: 600px;
-            padding: 10px;
         }
         #grid {
             display: grid;
             gap: 10px;
             margin-bottom: 20px;
             width: 100%;
+            max-width: 600px;
         }
         .cell {
             background-color: #ddd;
@@ -126,19 +124,23 @@
         function createGrid() {
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
-            const gridDimension = Math.sqrt(gridSize);
-            grid.style.gridTemplateColumns = `repeat(${gridDimension}, 1fr)`;
-            const cellSize = Math.min(window.innerWidth / gridDimension - 20, 100); // Adjust cell size for mobile
+        
+            const dimension = parseInt(document.getElementById('dimension-select').value);
+            gridSize = dimension * dimension; // Calculate the total number of cells based on dimension
+        
+            grid.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
+            grid.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
+        
             for (let i = 0; i < gridSize; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
                 cell.dataset.index = i;
-                cell.style.width = `${cellSize}px`;
-                cell.style.height = `${cellSize}px`;
-                cell.addEventListener('click', () => cellClicked(i));
+        
+                // Cells will automatically adjust their size based on the grid container's size and grid-template properties
                 grid.appendChild(cell);
             }
         }
+        
 
         function generateSequence() {
             sequence = [];
