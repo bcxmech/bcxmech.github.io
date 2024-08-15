@@ -1,262 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Match</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        #game-container {
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-        }
-        #grid {
-            display: grid;
-            gap: 10px;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-        .cell {
-            background-color: #ddd;
-            border: 2px solid #999;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            aspect-ratio: 1 / 1;
-        }
-        .cell.highlight {
-            background-color: #ff9900;
-        }
-        .cell.correct {
-            background-color: #66cc66;
-        }
-        .cell.wrong {
-            background-color: #ff6666;
-        }
-        .cell.flushed {
-            background-color: #add8e6;
-        }
-        #status, #score {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-        #buttons {
-            margin-top: 20px;
-        }
-        #start, #restart {
-            font-size: 16px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 0 10px;
-        }
-        #start:hover, #restart:hover {
-            background-color: #45a049;
-        }
-        #restart {
-            display: none;
-        }
-        #dimension-select {
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Follow the Sequence Game</title>
+  <style>
+    body {
+      background-color: #2b2b2b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Press Start 2P', cursive;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #grid-container {
+      display: grid;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .tile {
+      background-color: #4a90e2;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: 2px solid #1c1c1c;
+      transition: background-color 0.3s, transform 0.1s;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      box-shadow: 0 4px #1c1c1c;
+    }
+
+    .tile:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .highlighted {
+      background-color: #FFA500; /* Orange color */
+    }
+
+    #dimension-select, #start-button {
+      padding: 10px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Press Start 2P', cursive;
+      background-color: #ff5c5c;
+      color: #fff;
+      box-shadow: 0 4px #b33a3a;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    #dimension-select:active, #start-button:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    #level {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      #dimension-select, #start-button {
+        width: 100%;
+      }
+    }
+  </style>
+  <!-- Google Font for Retro Look -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="game-container">
-        <h1>Flash Match</h1>
-        <label for="dimension-select">Select Grid Size:</label>
-        <select id="dimension-select">
-            <option value="3">3x3</option>
-            <option value="4">4x4</option>
-            <option value="5">5x5</option>
-            <option value="6">6x6</option>
-            <option value="7">7x7</option>
-        </select>
-        <div id="status">Press Start to begin</div>
-        <div id="score">Score: 0</div>
-        <div id="grid"></div>
-        <div id="buttons">
-            <button id="start">Start Game</button>
-            <button id="restart">Restart Game</button>
-        </div>
-    </div>
-    <script>
-        let gridSize = 9;
-        let sequence = [];
-        let playerSequence = [];
-        let score = 0;
-        let level = 1;
-        let gameActive = false;
-        let audioContext;
 
-        const soundFrequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50, 1174.66, 1318.51, 1396.91, 1567.98, 1760.00, 1975.53, 2093.00];
+  <h1>Follow the Sequence</h1>
+  <div id="level">Level: 1</div>
+  <div id="controls">
+    <select id="dimension-select">
+      <option value="2">2x2</option>
+      <option value="3">3x3</option>
+      <option value="4">4x4</option>
+      <option value="5">5x5</option>
+      <option value="6">6x6</option>
+    </select>
+    <button id="start-button" onclick="startGame()">Start Game</button>
+  </div>
 
-        function initAudio() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  <div id="grid-container"></div>
+  <div id="message"></div>
+
+  <script>
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    let sequence = [];
+    let userSequence = [];
+    let currentStep = 0;
+    let lockBoard = false;
+    let level = 1;
+    let dimension = 2;
+    let numTiles = dimension * dimension;
+    let tileFrequencies = [];
+
+    function startGame() {
+      const gridContainer = document.getElementById('grid-container');
+      gridContainer.innerHTML = '';
+
+      dimension = parseInt(document.getElementById('dimension-select').value);
+      numTiles = dimension * dimension;
+
+      gridContainer.style.gridTemplateColumns = `repeat(${dimension}, 1fr)`;
+      gridContainer.style.gridTemplateRows = `repeat(${dimension}, 1fr)`;
+
+      // Calculate frequencies for each tile
+      tileFrequencies = [];
+      const baseFrequency = 261.6; // Middle C
+      const maxFrequency = 659.25; // E5
+      const frequencyStep = (maxFrequency - baseFrequency) / (numTiles - 1);
+
+      for (let i = 0; i < numTiles; i++) {
+        tileFrequencies.push(baseFrequency + (frequencyStep * i));
+      }
+
+      for (let i = 0; i < numTiles; i++) {
+        const tile = document.createElement('div');
+        tile.classList.add('tile');
+        tile.dataset.index = i;
+        tile.addEventListener('click', () => handleUserClick(tile));
+        gridContainer.appendChild(tile);
+      }
+
+      sequence = [];
+      userSequence = [];
+      currentStep = 0;
+      lockBoard = true;
+      document.getElementById('message').textContent = '';
+      document.getElementById('level').textContent = `Level: ${level}`;
+
+      setTimeout(() => {
+        generateSequence();
+      }, 500);
+    }
+
+    function generateSequence() {
+      // Ensure the sequence matches the current level
+      while (sequence.length < level) {
+        sequence.push(Math.floor(Math.random() * numTiles));
+      }
+      playSequence();
+    }
+
+    function playSequence() {
+      lockBoard = true;
+      let delay = 0;
+      sequence.forEach((index, i) => {
+        setTimeout(() => {
+          highlightTile(index);
+        }, delay);
+        delay += 700;
+      });
+      setTimeout(() => {
+        lockBoard = false; // Allow user interaction after sequence is shown
+      }, delay);
+    }
+
+    function highlightTile(index) {
+      const tiles = document.querySelectorAll('.tile');
+      const tile = tiles[index];
+      tile.classList.add('highlighted');
+      playSound(tileFrequencies[index]);
+      setTimeout(() => {
+        tile.classList.remove('highlighted');
+      }, 400);
+    }
+
+    function handleUserClick(tile) {
+      if (lockBoard) return;
+      const tileIndex = parseInt(tile.dataset.index);
+      userSequence.push(tileIndex);
+
+      highlightTile(tileIndex);
+
+      if (userSequence[currentStep] !== sequence[currentStep]) {
+        document.getElementById('message').textContent = 'Wrong! Restarting...';
+        playErrorSound();
+        resetGame(false);
+        return;
+      }
+
+      currentStep++;
+
+      if (currentStep === sequence.length) {
+        if (sequence.length === level) {
+          document.getElementById('message').textContent = 'Level Completed! Moving to next level...';
+          levelUp();
+        } else {
+          userSequence = [];
+          currentStep = 0;
+          setTimeout(() => {
+            generateSequence();
+          }, 1000);
         }
+      }
+    }
 
-        function play8BitSound(frequency) {
-            if (!audioContext) return;
-            const oscillator = audioContext.createOscillator();
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.connect(audioContext.destination);
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.2);
-        }
+    function levelUp() {
+      lockBoard = true;
+      level++;
+      userSequence = [];
+      currentStep = 0;
+      sequence = [];
+      setTimeout(() => {
+        startGame();
+      }, 1500);
+    }
 
-        function createGrid() {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '';
-            const gridDimension = Math.sqrt(gridSize);
-            grid.style.gridTemplateColumns = `repeat(${gridDimension}, 1fr)`;
-            
-            // Calculate the available width for the grid
-            const gameContainer = document.getElementById('game-container');
-            const availableWidth = gameContainer.offsetWidth;
-            
-            // Calculate cell size based on available width and grid dimension
-            const cellSize = (availableWidth - (gridDimension - 1) * 10) / gridDimension; // 10px gap between cells
-            
-            for (let i = 0; i < gridSize; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.dataset.index = i;
-                cell.style.width = `${cellSize}px`;
-                cell.style.height = `${cellSize}px`;
-                cell.addEventListener('click', () => cellClicked(i));
-                grid.appendChild(cell);
-            }
-        }
+    function resetGame(success) {
+      lockBoard = true;
+      level = 1;
+      userSequence = [];
+      currentStep = 0;
+      sequence = [];
+      setTimeout(() => {
+        startGame();
+      }, 1500);
+    }
 
-        function generateSequence() {
-            sequence = [];
-            for (let i = 0; i < level; i++) {
-                sequence.push(Math.floor(Math.random() * gridSize));
-            }
-        }
+    function playSound(frequency) {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
 
-        function flashAllTiles(colorClass) {
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => cell.classList.add(colorClass));
-            setTimeout(() => {
-                cells.forEach(cell => cell.classList.remove(colorClass));
-            }, 500);
-        }
+      oscillator.type = 'square';
+      oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // Volume control
 
-        function showSequence() {
-            let i = 0;
-            const intervalId = setInterval(() => {
-                if (i < sequence.length) {
-                    flashCell(sequence[i], 'highlight');
-                    play8BitSound(soundFrequencies[sequence[i]]);
-                    i++;
-                } else {
-                    clearInterval(intervalId);
-                    setTimeout(() => {
-                        gameActive = true;
-                        updateStatus("Your turn! Repeat the sequence.");
-                    }, 500);
-                }
-            }, 1000);
-        }
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
 
-        function flashCell(index, className) {
-            const cell = document.querySelector(`.cell[data-index="${index}"]`);
-            cell.classList.add(className);
-            setTimeout(() => cell.classList.remove(className), 300);
-        }
+      oscillator.start();
+      setTimeout(() => {
+        oscillator.stop();
+      }, 300);
+    }
 
-        function cellClicked(index) {
-            if (!gameActive) return;
+    function playErrorSound() {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
 
-            playerSequence.push(index);
-            play8BitSound(soundFrequencies[index]);
-            const correct = playerSequence[playerSequence.length - 1] === sequence[playerSequence.length - 1];
+      oscillator.type = 'sawtooth';
+      oscillator.frequency.setValueAtTime(100, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); // Volume control
 
-            if (correct) {
-                flashCell(index, 'correct');
-                score++;
-                updateScore();
-                if (playerSequence.length === sequence.length) {
-                    gameActive = false;
-                    updateStatus("Correct! Next level!");
-                    setTimeout(nextLevel, 1000);
-                }
-            } else {
-                flashCell(index, 'wrong');
-                gameActive = false;
-                updateStatus("Game Over! Try again.");
-                document.getElementById('restart').style.display = 'inline-block';
-            }
-        }
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
 
-        function updateStatus(message) {
-            document.getElementById('status').textContent = message;
-        }
+      oscillator.start();
+      setTimeout(() => {
+        oscillator.stop();
+      }, 500);
+    }
+  </script>
 
-        function updateScore() {
-            document.getElementById('score').textContent = `Score: ${score}`;
-        }
-
-        function startGame() {
-            initAudio();
-            const dimension = parseInt(document.getElementById('dimension-select').value);
-            gridSize = dimension * dimension;
-            level = 1;
-            score = 0;
-            updateScore();
-            createGrid();
-            startLevel();
-        }
-
-        function startLevel() {
-            playerSequence = [];
-            gameActive = false;
-            updateStatus(`Level ${level}: Get ready...`);
-            document.getElementById('start').style.display = 'none';
-            document.getElementById('restart').style.display = 'none';
-            flashAllTiles('flushed');
-            setTimeout(() => {
-                updateStatus(`Level ${level}: Watch the sequence`);
-                generateSequence();
-                setTimeout(showSequence, 1000);
-            }, 1000);
-        }
-
-        function nextLevel() {
-            level++;
-            startLevel();
-        }
-
-        function restartGame() {
-            startGame();
-        }
-
-        document.getElementById('start').addEventListener('click', startGame);
-        document.getElementById('restart').addEventListener('click', restartGame);
-        window.addEventListener('resize', createGrid);
-
-        createGrid();
-    </script>
 </body>
 </html>
