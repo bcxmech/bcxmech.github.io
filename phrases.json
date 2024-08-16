@@ -240,219 +240,213 @@
                 "They walked together with their dog."
             ]
         },
-            {
-      "phrase": "and",
-      "where_to_use": "To connect ideas or add information.",
-      "when_to_use": "When combining two or more related points in a sentence.",
-      "examples": [
-        "I like apples and oranges.",
-        "She sings and dances beautifully.",
-        "He is tall and strong.",
-        "We visited the museum and the park.",
-        "I need to buy bread and milk.",
-        "She is smart and hardworking.",
-        "He plays football and basketball.",
-        "They were tired and hungry."
-      ]
-    },
-    {
-      "phrase": "and then",
-      "where_to_use": "To show sequence or order of events.",
-      "when_to_use": "When describing a series of actions or events.",
-      "examples": [
-        "We went to the store and then to the park.",
-        "She finished her homework and then watched TV.",
-        "I ate dinner and then went for a walk.",
-        "He studied all night and then took the exam.",
-        "They cleaned the house and then relaxed.",
-        "She called her friend and then went out.",
-        "First, we cooked, and then we ate.",
-        "He read the book and then discussed it."
-      ]
-    },
-    {
-      "phrase": "finally",
-      "where_to_use": "To indicate the last action or step.",
-      "when_to_use": "When concluding a list or series of actions.",
-      "examples": [
-        "We finally arrived at the destination.",
-        "She finally agreed to the plan.",
-        "I finally finished the project.",
-        "They finally won the game.",
-        "He finally admitted his mistake.",
-        "We finally reached a decision.",
-        "She finally found her keys.",
-        "The weather finally cleared up."
-      ]
-    },
-    {
-      "phrase": "first (of all)",
-      "where_to_use": "To introduce the first point in a list.",
-      "when_to_use": "When starting with the initial point or step.",
-      "examples": [
-        "First of all, let me thank you for coming.",
-        "First, we need to gather the materials.",
-        "First of all, you should understand the basics.",
-        "First, turn on the computer.",
-        "First of all, I want to explain the rules.",
-        "First, check the weather before leaving.",
-        "First of all, let’s address the main issue.",
-        "First, we should discuss the budget."
-      ]
-    },
-    {
-      "phrase": "firstly (more formal than first)",
-      "where_to_use": "To introduce the first point in formal writing.",
-      "when_to_use": "When making a formal or structured argument.",
-      "examples": [
-        "Firstly, I would like to thank everyone for their hard work.",
-        "Firstly, we need to analyze the data.",
-        "Firstly, it’s important to understand the context.",
-        "Firstly, let’s address the key concerns.",
-        "Firstly, I’ll outline the main points.",
-        "Firstly, I want to highlight the benefits.",
-        "Firstly, we must consider the risks involved.",
-        "Firstly, this project requires careful planning."
-      ]
-    },
-    {
-      "phrase": "for a start",
-      "where_to_use": "To introduce the first reason or example.",
-      "when_to_use": "When beginning to list reasons or examples.",
-      "examples": [
-        "For a start, the price is too high.",
-        "For a start, you need to be punctual.",
-        "For a start, let’s focus on the basics.",
-        "For a start, this is a very complex issue.",
-        "For a start, we need more information.",
-        "For a start, the design is outdated.",
-        "For a start, we need to secure funding.",
-        "For a start, let’s agree on the objectives."
-      ]
-    },
-    {
-      "phrase": "going back to",
-      "where_to_use": "To return to a previous point.",
-      "when_to_use": "When referring back to something mentioned earlier.",
-      "examples": [
-        "Going back to our earlier discussion, we need to clarify some points.",
-        "Going back to the budget, we should review the expenses.",
-        "Going back to what you said, I think we need more details.",
-        "Going back to the first question, I believe we have the answer now.",
-        "Going back to the issue at hand, we need to focus on solutions.",
-        "Going back to your proposal, I have a few suggestions.",
-        "Going back to the main topic, let’s discuss the strategy.",
-        "Going back to the original plan, we need to make some adjustments."
-      ]
-    },
-    {
-      "phrase": "in general",
-      "where_to_use": "To make a broad statement or overview.",
-      "when_to_use": "When summarizing or generalizing information.",
-      "examples": [
-        "In general, people are satisfied with the service.",
-        "In general, the weather is warm this time of year.",
-        "In general, I think the project is going well.",
-        "In general, he is a very reliable person.",
-        "In general, the economy is improving.",
-        "In general, they prefer outdoor activities.",
-        "In general, the response was positive.",
-        "In general, it’s a good idea to plan ahead."
-      ]
-    },
-    {
-      "phrase": "in the end",
-      "where_to_use": "To indicate the final outcome or conclusion.",
-      "when_to_use": "When describing what ultimately happened.",
-      "examples": [
-        "In the end, we decided to go with the first option.",
-        "In the end, they reached an agreement.",
-        "In the end, it all worked out well.",
-        "In the end, he realized his mistake.",
-        "In the end, they won the championship.",
-        "In the end, she got the job.",
-        "In the end, we chose the simpler solution.",
-        "In the end, everything turned out fine."
-      ]
-    },
-    {
-      "phrase": "in the first place",
-      "where_to_use": "To emphasize the original reason or cause.",
-      "when_to_use": "When questioning or reaffirming the initial reason.",
-      "examples": [
-        "Why did you do it in the first place?",
-        "We shouldn’t have gone there in the first place.",
-        "In the first place, you need to understand the rules.",
-        "He should have told the truth in the first place.",
-        "In the first place, we should have planned better.",
-        "I don’t know why I agreed in the first place.",
-        "In the first place, it wasn’t a good idea.",
-        "They should have consulted us in the first place."
-      ]
-    },
-    {
-      "phrase": "last of all",
-      "where_to_use": "To introduce the final point in a list.",
-      "when_to_use": "When concluding a series of points or items.",
-      "examples": [
-        "Last of all, I want to thank everyone for their support.",
-        "Last of all, let’s discuss the timeline.",
-        "Last of all, I’ll summarize the key findings.",
-        "Last of all, we need to finalize the details.",
-        "Last of all, I’d like to hear your feedback.",
-        "Last of all, remember to submit your reports.",
-        "Last of all, don’t forget to set your goals.",
-        "Last of all, we should review the budget."
-      ]
-    },
-    {
-      "phrase": "lastly",
-      "where_to_use": "To indicate the final point in a formal context.",
-      "when_to_use": "When concluding a formal speech or document.",
-      "examples": [
-        "Lastly, I want to emphasize the importance of teamwork.",
-        "Lastly, let’s review the main points.",
-        "Lastly, I’d like to thank the organizers.",
-        "Lastly, don’t forget to submit your feedback.",
-        "Lastly, I encourage you to keep learning.",
-        "Lastly, we should prepare for the next phase.",
-        "Lastly, I appreciate your attention.",
-        "Lastly, let’s continue to work together."
-      ]
-    },
-    {
-      "phrase": "next",
-      "where_to_use": "To indicate the following item or action.",
-      "when_to_use": "When moving on to the subsequent point or task.",
-      "examples": [
-        "Next, we’ll discuss the budget.",
-        "Next, I want to introduce our new team member.",
-        "Next, let’s look at the sales figures.",
-        "Next, we’ll focus on marketing strategies.",
-        "Next, I’ll show you how to use the software.",
-        "Next, we need to set our goals.",
-        "Next, let’s plan the project timeline.",
-        "Next, we’ll address the customer feedback."
-      ]
-    },
-    {
-      "phrase": "on top of that",
-      "where_to_use": "To add another point to an existing list.",
-      "when_to_use": "When emphasizing an additional or more significant point.",
-      "examples": [
-        "The project is over budget, and on top of that, it’s behind schedule.",
-        "She’s talented and, on top of that, she’s very hardworking.",
-        "The room was small, and on top of that, it was dirty.",
-        "The weather was terrible, and on top of that, we missed our flight.",
-        "He’s busy, and on top of that, he’s not feeling well.",
-        "We have a tight deadline, and on top of that, the client changed
-      ]
-    }
-
-
-
-
-
-      
+        {
+            "phrase": "and",
+            "where_to_use": "To connect ideas or add information.",
+            "when_to_use": "When combining two or more related points in a sentence.",
+            "examples": [
+                "I like apples and oranges.",
+                "She sings and dances beautifully.",
+                "He is tall and strong.",
+                "We visited the museum and the park.",
+                "I need to buy bread and milk.",
+                "She is smart and hardworking.",
+                "He plays football and basketball.",
+                "They were tired and hungry."
+            ]
+        },
+        {
+            "phrase": "and then",
+            "where_to_use": "To show sequence or order of events.",
+            "when_to_use": "When describing a series of actions or events.",
+            "examples": [
+                "We went to the store and then to the park.",
+                "She finished her homework and then watched TV.",
+                "I ate dinner and then went for a walk.",
+                "He studied all night and then took the exam.",
+                "They cleaned the house and then relaxed.",
+                "She called her friend and then went out.",
+                "First, we cooked, and then we ate.",
+                "He read the book and then discussed it."
+            ]
+        },
+        {
+            "phrase": "finally",
+            "where_to_use": "To indicate the last action or step.",
+            "when_to_use": "When concluding a list or series of actions.",
+            "examples": [
+                "We finally arrived at the destination.",
+                "She finally agreed to the plan.",
+                "I finally finished the project.",
+                "They finally won the game.",
+                "He finally admitted his mistake.",
+                "We finally reached a decision.",
+                "She finally found her keys.",
+                "The weather finally cleared up."
+            ]
+        },
+        {
+            "phrase": "first (of all)",
+            "where_to_use": "To introduce the first point in a list.",
+            "when_to_use": "When starting with the initial point or step.",
+            "examples": [
+                "First of all, let me thank you for coming.",
+                "First, we need to gather the materials.",
+                "First of all, you should understand the basics.",
+                "First, turn on the computer.",
+                "First of all, I want to explain the rules.",
+                "First, check the weather before leaving.",
+                "First of all, let’s address the main issue.",
+                "First, we should discuss the budget."
+            ]
+        },
+        {
+            "phrase": "firstly (more formal than first)",
+            "where_to_use": "To introduce the first point in formal writing.",
+            "when_to_use": "When making a formal or structured argument.",
+            "examples": [
+                "Firstly, I would like to thank everyone for their hard work.",
+                "Firstly, we need to analyze the data.",
+                "Firstly, it’s important to understand the context.",
+                "Firstly, let’s address the key concerns.",
+                "Firstly, I’ll outline the main points.",
+                "Firstly, I want to highlight the benefits.",
+                "Firstly, we must consider the risks involved.",
+                "Firstly, this project requires careful planning."
+            ]
+        },
+        {
+            "phrase": "for a start",
+            "where_to_use": "To introduce the first reason or example.",
+            "when_to_use": "When beginning to list reasons or examples.",
+            "examples": [
+                "For a start, the price is too high.",
+                "For a start, you need to be punctual.",
+                "For a start, let’s focus on the basics.",
+                "For a start, this is a very complex issue.",
+                "For a start, we need more information.",
+                "For a start, the design is outdated.",
+                "For a start, we need to secure funding.",
+                "For a start, let’s agree on the objectives."
+            ]
+        },
+        {
+            "phrase": "going back to",
+            "where_to_use": "To return to a previous point.",
+            "when_to_use": "When referring back to something mentioned earlier.",
+            "examples": [
+                "Going back to our earlier discussion, we need to clarify some points.",
+                "Going back to the budget, we should review the expenses.",
+                "Going back to what you said, I think we need more details.",
+                "Going back to the first question, I believe we have the answer now.",
+                "Going back to the issue at hand, we need to focus on solutions.",
+                "Going back to your proposal, I have a few suggestions.",
+                "Going back to the main topic, let’s discuss the strategy.",
+                "Going back to the original plan, we need to make some adjustments."
+            ]
+        },
+        {
+            "phrase": "in general",
+            "where_to_use": "To make a broad statement or overview.",
+            "when_to_use": "When summarizing or generalizing information.",
+            "examples": [
+                "In general, people are satisfied with the service.",
+                "In general, the weather is warm this time of year.",
+                "In general, I think the project is going well.",
+                "In general, he is a very reliable person.",
+                "In general, the economy is improving.",
+                "In general, they prefer outdoor activities.",
+                "In general, the response was positive.",
+                "In general, it’s a good idea to plan ahead."
+            ]
+        },
+        {
+            "phrase": "in the end",
+            "where_to_use": "To indicate the final outcome or conclusion.",
+            "when_to_use": "When describing what ultimately happened.",
+            "examples": [
+                "In the end, we decided to go with the first option.",
+                "In the end, they reached an agreement.",
+                "In the end, it all worked out well.",
+                "In the end, he realized his mistake.",
+                "In the end, they won the championship.",
+                "In the end, she got the job.",
+                "In the end, we chose the simpler solution.",
+                "In the end, everything turned out fine."
+            ]
+        },
+        {
+            "phrase": "in the first place",
+            "where_to_use": "To emphasize the original reason or cause.",
+            "when_to_use": "When questioning or reaffirming the initial reason.",
+            "examples": [
+                "Why did you do it in the first place?",
+                "We shouldn’t have gone there in the first place.",
+                "In the first place, you need to understand the rules.",
+                "He should have told the truth in the first place.",
+                "In the first place, we should have planned better.",
+                "I don’t know why I agreed in the first place.",
+                "In the first place, it wasn’t a good idea.",
+                "They should have consulted us in the first place."
+            ]
+        },
+        {
+            "phrase": "last of all",
+            "where_to_use": "To introduce the final point in a list.",
+            "when_to_use": "When concluding a series of points or items.",
+            "examples": [
+                "Last of all, I want to thank everyone for their support.",
+                "Last of all, let’s discuss the timeline.",
+                "Last of all, I’ll summarize the key findings.",
+                "Last of all, we need to finalize the details.",
+                "Last of all, I’d like to hear your feedback.",
+                "Last of all, remember to submit your reports.",
+                "Last of all, don’t forget to set your goals.",
+                "Last of all, we should review the budget."
+            ]
+        },
+        {
+            "phrase": "lastly",
+            "where_to_use": "To indicate the final point in a formal context.",
+            "when_to_use": "When concluding a formal speech or document.",
+            "examples": [
+                "Lastly, I want to emphasize the importance of teamwork.",
+                "Lastly, let’s review the main points.",
+                "Lastly, I’d like to thank the organizers.",
+                "Lastly, don’t forget to submit your feedback.",
+                "Lastly, I encourage you to keep learning.",
+                "Lastly, we should prepare for the next phase.",
+                "Lastly, I appreciate your attention.",
+                "Lastly, let’s continue to work together."
+            ]
+        },
+        {
+            "phrase": "next",
+            "where_to_use": "To indicate the following item or action.",
+            "when_to_use": "When moving on to the subsequent point or task.",
+            "examples": [
+                "Next, we’ll discuss the budget.",
+                "Next, I want to introduce our new team member.",
+                "Next, let’s look at the sales figures.",
+                "Next, we’ll focus on marketing strategies.",
+                "Next, I’ll show you how to use the software.",
+                "Next, we need to set our goals.",
+                "Next, let’s plan the project timeline.",
+                "Next, we’ll address the customer feedback."
+            ]
+        },
+        {
+            "phrase": "on top of that",
+            "where_to_use": "To add another point to an existing list.",
+            "when_to_use": "When emphasizing an additional or more significant point.",
+            "examples": [
+                "The project is over budget, and on top of that, it’s behind schedule.",
+                "She’s talented and, on top of that, she’s very hardworking.",
+                "The room was small, and on top of that, it was dirty.",
+                "The weather was terrible, and on top of that, we missed our flight.",
+                "He’s busy, and on top of that, he’s not feeling well.",
+                "We have a tight deadline, and on top of that, the client changed the requirements."
+            ]
+        }
     ]
 }
