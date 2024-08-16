@@ -1,0 +1,458 @@
+{
+    "phrases": [
+        {
+            "phrase": "Instead of",
+            "where_to_use": "In place of something else.",
+            "when_to_use": "When choosing one option over another.",
+            "examples": [
+                "Let's go to the park instead of the mall.",
+                "She had tea instead of coffee this morning.",
+                "Can we meet at 3 PM instead of 2 PM?",
+                "He wore sneakers instead of formal shoes.",
+                "I'll have salad instead of fries.",
+                "They chose to walk instead of driving.",
+                "We should focus on solutions instead of problems.",
+                "Try listening instead of arguing."
+            ]
+        },
+        {
+            "phrase": "Besides",
+            "where_to_use": "In addition to something.",
+            "when_to_use": "When adding more information or items.",
+            "examples": [
+                "Besides the main course, we have dessert.",
+                "She's good at singing, and besides, she can dance well.",
+                "Besides you, who else is coming?",
+                "I don't want to go. Besides, it's raining.",
+                "There's nothing on TV. Besides, I'm tired.",
+                "Besides the cost, the quality matters too.",
+                "Who else did you invite besides John?",
+                "He doesn't like football. Besides, he's not good at it."
+            ]
+        },
+        {
+            "phrase": "Even though",
+            "where_to_use": "To introduce a contrasting idea.",
+            "when_to_use": "When something happens despite other circumstances.",
+            "examples": [
+                "Even though it's raining, we'll go hiking.",
+                "She passed the exam even though she didn't study much.",
+                "Even though I'm tired, I'll finish the work.",
+                "He came to the party even though he was sick.",
+                "They played well even though they lost.",
+                "Even though it was late, she called her friend.",
+                "He smiled even though he was upset.",
+                "She stayed calm even though she was nervous."
+            ]
+        },
+        {
+            "phrase": "Rather",
+            "where_to_use": "To indicate preference or correction.",
+            "when_to_use": "When correcting yourself or showing preference.",
+            "examples": [
+                "I'd rather stay home tonight.",
+                "He'd rather have pizza than sushi.",
+                "I’d rather read a book than watch TV.",
+                "Rather than complaining, try to find a solution.",
+                "She'd rather walk than take a bus.",
+                "I'd rather not talk about it now.",
+                "He'd rather be alone.",
+                "Rather than arguing, they decided to agree."
+            ]
+        },
+        {
+            "phrase": "Because",
+            "where_to_use": "To give a reason for something.",
+            "when_to_use": "When explaining the reason for an action or situation.",
+            "examples": [
+                "I'm late because I missed the bus.",
+                "She left early because she wasn't feeling well.",
+                "They didn't come because they were busy.",
+                "I'm studying hard because I want to pass the exam.",
+                "He can't come because he's working.",
+                "They moved because of the job offer.",
+                "We canceled the picnic because it was raining.",
+                "I'm happy because you are here."
+            ]
+        },
+        {
+            "phrase": "Considering",
+            "where_to_use": "To take into account.",
+            "when_to_use": "When acknowledging a particular circumstance or fact.",
+            "examples": [
+                "Considering the weather, we should stay inside.",
+                "She's doing well, considering her situation.",
+                "Considering his experience, he should get the job.",
+                "The decision was fair, considering all factors.",
+                "Considering the traffic, we should leave early.",
+                "He did great, considering it's his first time.",
+                "Considering her age, she's very active.",
+                "We should be grateful, considering what we have."
+            ]
+        },
+        {
+            "phrase": "Despite",
+            "where_to_use": "To show contrast between two ideas.",
+            "when_to_use": "When something happens or is true, even though something else might have prevented it.",
+            "examples": [
+                "He went for a walk despite the rain.",
+                "Despite being tired, she finished her homework.",
+                "They won the game despite being the underdogs.",
+                "She smiled despite the bad news.",
+                "Despite the warning, he went ahead.",
+                "He kept working despite the noise.",
+                "She stayed calm despite the chaos.",
+                "Despite the difficulties, they succeeded."
+            ]
+        },
+        {
+            "phrase": "Worried about",
+            "where_to_use": "To express concern or fear.",
+            "when_to_use": "When anxious about something that might happen.",
+            "examples": [
+                "She's worried about her exam results.",
+                "I'm worried about losing my job.",
+                "He seems worried about the future.",
+                "They are worried about the economy.",
+                "She's worried about her health.",
+                "Are you worried about the test?",
+                "He's worried about his performance.",
+                "I'm worried about missing the bus."
+            ]
+        },
+        {
+            "phrase": "About",
+            "where_to_use": "To introduce the subject of something.",
+            "when_to_use": "When referring to the subject or topic of discussion.",
+            "examples": [
+                "Let's talk about your project.",
+                "I'm thinking about what to do next.",
+                "What do you know about this?",
+                "This book is about history.",
+                "I'm not sure about that.",
+                "Tell me about your day.",
+                "He was asking about you.",
+                "What's this movie about?"
+            ]
+        },
+        {
+            "phrase": "Using",
+            "where_to_use": "To explain the method or tool employed.",
+            "when_to_use": "When describing how something is done.",
+            "examples": [
+                "I made this cake using a new recipe.",
+                "She solved the problem using her calculator.",
+                "We found the place using a map.",
+                "He fixed the car using basic tools.",
+                "She's improving her English using online courses.",
+                "You can pay using your credit card.",
+                "They communicated using sign language.",
+                "I learned to play the guitar using YouTube videos."
+            ]
+        },
+        {
+            "phrase": "Trying to",
+            "where_to_use": "To indicate effort or attempt.",
+            "when_to_use": "When making an effort to do something.",
+            "examples": [
+                "I'm trying to understand this problem.",
+                "She's trying to learn Spanish.",
+                "They're trying to finish the project on time.",
+                "He's trying to lose weight.",
+                "We're trying to solve this issue.",
+                "I'm trying to be more patient.",
+                "He's trying to quit smoking.",
+                "She's trying to make new friends."
+            ]
+        },
+        {
+            "phrase": "After",
+            "where_to_use": "To indicate sequence or timing.",
+            "when_to_use": "When something happens following another event.",
+            "examples": [
+                "Let's meet after work.",
+                "He called me after the meeting.",
+                "We'll go out after dinner.",
+                "She left after finishing her homework.",
+                "I'll do it after lunch.",
+                "They went home after the party.",
+                "She felt better after resting.",
+                "We'll talk after class."
+            ]
+        },
+        {
+            "phrase": "About to",
+            "where_to_use": "To express something imminent.",
+            "when_to_use": "When something is going to happen very soon.",
+            "examples": [
+                "I'm about to leave.",
+                "She's about to start the presentation.",
+                "They're about to make a decision.",
+                "He's about to arrive.",
+                "We're about to begin.",
+                "I'm about to give up.",
+                "She's about to cry.",
+                "They're about to close the store."
+            ]
+        },
+        {
+            "phrase": "Opposite to",
+            "where_to_use": "To indicate something that contrasts with another.",
+            "when_to_use": "When showing a contrast or contradiction.",
+            "examples": [
+                "Her opinion is opposite to mine.",
+                "This street runs opposite to the park.",
+                "His views are opposite to what I believe.",
+                "The store is opposite to the bank.",
+                "Her actions were opposite to her words.",
+                "The results were opposite to our expectations.",
+                "Their style is opposite to modern trends.",
+                "The situation is opposite to what we thought."
+            ]
+        },
+        {
+            "phrase": "Unlike",
+            "where_to_use": "To show difference between things.",
+            "when_to_use": "When comparing two things that are different.",
+            "examples": [
+                "Unlike her sister, she loves sports.",
+                "This coffee is unlike any I've had before.",
+                "He's unlike anyone I've ever met.",
+                "The weather here is unlike that in my hometown.",
+                "Unlike most people, he enjoys public speaking.",
+                "This is unlike anything we've seen.",
+                "Her approach is unlike the others.",
+                "Unlike last time, the event was a success."
+            ]
+        },
+        {
+            "phrase": "Together with",
+            "where_to_use": "To show accompaniment or partnership.",
+            "when_to_use": "When someone or something is accompanying another.",
+            "examples": [
+                "She went to the concert together with her friends.",
+                "The proposal was submitted together with the budget.",
+                "They worked together with the team.",
+                "He sings together with his band.",
+                "She left together with her family.",
+                "We built this project together with our partners.",
+                "He completed the assignment together with his classmates.",
+                "They walked together with their dog."
+            ]
+        },
+            {
+      "phrase": "and",
+      "where_to_use": "To connect ideas or add information.",
+      "when_to_use": "When combining two or more related points in a sentence.",
+      "examples": [
+        "I like apples and oranges.",
+        "She sings and dances beautifully.",
+        "He is tall and strong.",
+        "We visited the museum and the park.",
+        "I need to buy bread and milk.",
+        "She is smart and hardworking.",
+        "He plays football and basketball.",
+        "They were tired and hungry."
+      ]
+    },
+    {
+      "phrase": "and then",
+      "where_to_use": "To show sequence or order of events.",
+      "when_to_use": "When describing a series of actions or events.",
+      "examples": [
+        "We went to the store and then to the park.",
+        "She finished her homework and then watched TV.",
+        "I ate dinner and then went for a walk.",
+        "He studied all night and then took the exam.",
+        "They cleaned the house and then relaxed.",
+        "She called her friend and then went out.",
+        "First, we cooked, and then we ate.",
+        "He read the book and then discussed it."
+      ]
+    },
+    {
+      "phrase": "finally",
+      "where_to_use": "To indicate the last action or step.",
+      "when_to_use": "When concluding a list or series of actions.",
+      "examples": [
+        "We finally arrived at the destination.",
+        "She finally agreed to the plan.",
+        "I finally finished the project.",
+        "They finally won the game.",
+        "He finally admitted his mistake.",
+        "We finally reached a decision.",
+        "She finally found her keys.",
+        "The weather finally cleared up."
+      ]
+    },
+    {
+      "phrase": "first (of all)",
+      "where_to_use": "To introduce the first point in a list.",
+      "when_to_use": "When starting with the initial point or step.",
+      "examples": [
+        "First of all, let me thank you for coming.",
+        "First, we need to gather the materials.",
+        "First of all, you should understand the basics.",
+        "First, turn on the computer.",
+        "First of all, I want to explain the rules.",
+        "First, check the weather before leaving.",
+        "First of all, let’s address the main issue.",
+        "First, we should discuss the budget."
+      ]
+    },
+    {
+      "phrase": "firstly (more formal than first)",
+      "where_to_use": "To introduce the first point in formal writing.",
+      "when_to_use": "When making a formal or structured argument.",
+      "examples": [
+        "Firstly, I would like to thank everyone for their hard work.",
+        "Firstly, we need to analyze the data.",
+        "Firstly, it’s important to understand the context.",
+        "Firstly, let’s address the key concerns.",
+        "Firstly, I’ll outline the main points.",
+        "Firstly, I want to highlight the benefits.",
+        "Firstly, we must consider the risks involved.",
+        "Firstly, this project requires careful planning."
+      ]
+    },
+    {
+      "phrase": "for a start",
+      "where_to_use": "To introduce the first reason or example.",
+      "when_to_use": "When beginning to list reasons or examples.",
+      "examples": [
+        "For a start, the price is too high.",
+        "For a start, you need to be punctual.",
+        "For a start, let’s focus on the basics.",
+        "For a start, this is a very complex issue.",
+        "For a start, we need more information.",
+        "For a start, the design is outdated.",
+        "For a start, we need to secure funding.",
+        "For a start, let’s agree on the objectives."
+      ]
+    },
+    {
+      "phrase": "going back to",
+      "where_to_use": "To return to a previous point.",
+      "when_to_use": "When referring back to something mentioned earlier.",
+      "examples": [
+        "Going back to our earlier discussion, we need to clarify some points.",
+        "Going back to the budget, we should review the expenses.",
+        "Going back to what you said, I think we need more details.",
+        "Going back to the first question, I believe we have the answer now.",
+        "Going back to the issue at hand, we need to focus on solutions.",
+        "Going back to your proposal, I have a few suggestions.",
+        "Going back to the main topic, let’s discuss the strategy.",
+        "Going back to the original plan, we need to make some adjustments."
+      ]
+    },
+    {
+      "phrase": "in general",
+      "where_to_use": "To make a broad statement or overview.",
+      "when_to_use": "When summarizing or generalizing information.",
+      "examples": [
+        "In general, people are satisfied with the service.",
+        "In general, the weather is warm this time of year.",
+        "In general, I think the project is going well.",
+        "In general, he is a very reliable person.",
+        "In general, the economy is improving.",
+        "In general, they prefer outdoor activities.",
+        "In general, the response was positive.",
+        "In general, it’s a good idea to plan ahead."
+      ]
+    },
+    {
+      "phrase": "in the end",
+      "where_to_use": "To indicate the final outcome or conclusion.",
+      "when_to_use": "When describing what ultimately happened.",
+      "examples": [
+        "In the end, we decided to go with the first option.",
+        "In the end, they reached an agreement.",
+        "In the end, it all worked out well.",
+        "In the end, he realized his mistake.",
+        "In the end, they won the championship.",
+        "In the end, she got the job.",
+        "In the end, we chose the simpler solution.",
+        "In the end, everything turned out fine."
+      ]
+    },
+    {
+      "phrase": "in the first place",
+      "where_to_use": "To emphasize the original reason or cause.",
+      "when_to_use": "When questioning or reaffirming the initial reason.",
+      "examples": [
+        "Why did you do it in the first place?",
+        "We shouldn’t have gone there in the first place.",
+        "In the first place, you need to understand the rules.",
+        "He should have told the truth in the first place.",
+        "In the first place, we should have planned better.",
+        "I don’t know why I agreed in the first place.",
+        "In the first place, it wasn’t a good idea.",
+        "They should have consulted us in the first place."
+      ]
+    },
+    {
+      "phrase": "last of all",
+      "where_to_use": "To introduce the final point in a list.",
+      "when_to_use": "When concluding a series of points or items.",
+      "examples": [
+        "Last of all, I want to thank everyone for their support.",
+        "Last of all, let’s discuss the timeline.",
+        "Last of all, I’ll summarize the key findings.",
+        "Last of all, we need to finalize the details.",
+        "Last of all, I’d like to hear your feedback.",
+        "Last of all, remember to submit your reports.",
+        "Last of all, don’t forget to set your goals.",
+        "Last of all, we should review the budget."
+      ]
+    },
+    {
+      "phrase": "lastly",
+      "where_to_use": "To indicate the final point in a formal context.",
+      "when_to_use": "When concluding a formal speech or document.",
+      "examples": [
+        "Lastly, I want to emphasize the importance of teamwork.",
+        "Lastly, let’s review the main points.",
+        "Lastly, I’d like to thank the organizers.",
+        "Lastly, don’t forget to submit your feedback.",
+        "Lastly, I encourage you to keep learning.",
+        "Lastly, we should prepare for the next phase.",
+        "Lastly, I appreciate your attention.",
+        "Lastly, let’s continue to work together."
+      ]
+    },
+    {
+      "phrase": "next",
+      "where_to_use": "To indicate the following item or action.",
+      "when_to_use": "When moving on to the subsequent point or task.",
+      "examples": [
+        "Next, we’ll discuss the budget.",
+        "Next, I want to introduce our new team member.",
+        "Next, let’s look at the sales figures.",
+        "Next, we’ll focus on marketing strategies.",
+        "Next, I’ll show you how to use the software.",
+        "Next, we need to set our goals.",
+        "Next, let’s plan the project timeline.",
+        "Next, we’ll address the customer feedback."
+      ]
+    },
+    {
+      "phrase": "on top of that",
+      "where_to_use": "To add another point to an existing list.",
+      "when_to_use": "When emphasizing an additional or more significant point.",
+      "examples": [
+        "The project is over budget, and on top of that, it’s behind schedule.",
+        "She’s talented and, on top of that, she’s very hardworking.",
+        "The room was small, and on top of that, it was dirty.",
+        "The weather was terrible, and on top of that, we missed our flight.",
+        "He’s busy, and on top of that, he’s not feeling well.",
+        "We have a tight deadline, and on top of that, the client changed
+      ]
+    }
+
+
+
+
+
+      
+    ]
+}
