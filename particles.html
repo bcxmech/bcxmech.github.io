@@ -35,7 +35,7 @@
         }
         .toggle-button {
             position: fixed;
-            top: 10px;
+            bottom: 10px; /* Moved to the bottom */
             right: 10px;
             background-color: #007A75;
             color: #FCBE8E;
@@ -103,7 +103,7 @@
         let particleSize = 0.1;
         let minorAxisScale = 1;
         let chaosTargetValue = 100; // Target value for the chaos slider
-        let mousePressed = false; // Track mouse press state
+        let targetSpeed = baseSpeed;
 
         // Microphone related variables
         let audioContext;
@@ -111,7 +111,6 @@
         let microphone;
         let javascriptNode;
         let maxSoundLevel = 0;
-        let targetSpeed = baseSpeed;
 
         // Initialize the microphone
         async function initMicrophone() {
@@ -314,39 +313,6 @@
         // Handle chaos slider
         const chaosSlider = document.getElementById('chaosSlider');
         const chaosValue = document.getElementById('chaosValue');
-
-        function adjustChaosSlider() {
-            const currentChaosValue = parseFloat(chaosSlider.value);
-            const step = 1; // Step size for gradual change
-
-            if (currentChaosValue < chaosTargetValue) {
-                chaosSlider.value = Math.min(currentChaosValue + step, chaosTargetValue);
-            } else if (currentChaosValue > chaosTargetValue) {
-                chaosSlider.value = Math.max(currentChaosValue - step, chaosTargetValue);
-            }
-
-            chaosValue.textContent = chaosSlider.value;
-
-            // Trigger the chaos slider's input event to apply changes
-            chaosSlider.dispatchEvent(new Event('input'));
-
-            // Continue adjusting until the chaos value matches the target
-            if (parseFloat(chaosSlider.value) !== chaosTargetValue) {
-                requestAnimationFrame(adjustChaosSlider);
-            }
-        }
-
-        window.addEventListener('mousedown', () => {
-            mousePressed = true;
-            chaosTargetValue = 0;
-            adjustChaosSlider();
-        });
-
-        window.addEventListener('mouseup', () => {
-            mousePressed = false;
-            chaosTargetValue = 100;
-            adjustChaosSlider();
-        });
 
         chaosSlider.addEventListener('input', () => {
             const chaosFactor = chaosSlider.value / 100;
