@@ -33,266 +33,343 @@
         input[type="range"] {
             accent-color: #5B9489; /* Updated slider thumb color */
         }
+        .toggle-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #007A75;
+            color: #FCBE8E;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<div class="controls">
-    <div>
-        <label for="electronCountSlider">Number of Electrons:</label>
-        <input id="electronCountSlider" type="range" min="1" max="180" value="60">
-        <span id="electronCountValue">60</span>
+    <button class="toggle-button" onclick="toggleControls()">Toggle Menu</button>
+    <div class="controls">
+        <div>
+            <label for="electronCountSlider">Number of Electrons:</label>
+            <input id="electronCountSlider" type="range" min="1" max="180" value="60">
+            <span id="electronCountValue">60</span>
+        </div>
+        <div>
+            <label for="speedSlider">Speed:</label>
+            <input id="speedSlider" type="range" min="1" max="100" value="50">
+            <span id="speedValue">50</span>
+        </div>
+        <div>
+            <label for="particleSizeSlider">Particle Size:</label>
+            <input id="particleSizeSlider" type="range" min="0.01" max="2" step="0.02" value="0.1">
+            <span id="particleSizeValue">0.1</span>
+        </div>
+        <div>
+            <label for="minorAxisSlider">Minor Axis Scale:</label>
+            <input id="minorAxisSlider" type="range" min="0.1" max="3" step="0.1" value="1">
+            <span id="minorAxisValue">1</span>
+        </div>
+        <div>
+            <label for="chaosSlider">Chaos:</label>
+            <input id="chaosSlider" type="range" min="0" max="100" value="0">
+            <span id="chaosValue">0</span>
+        </div>
     </div>
-    <div>
-        <label for="speedSlider">Speed:</label>
-        <input id="speedSlider" type="range" min="1" max="100" value="50">
-        <span id="speedValue">50</span>
-    </div>
-    <div>
-        <label for="particleSizeSlider">Particle Size:</label>
-        <input id="particleSizeSlider" type="range" min="0.01" max="2" step="0.02" value="0.1">
-        <span id="particleSizeValue">0.1</span>
-    </div>
-    <div>
-        <label for="minorAxisSlider">Minor Axis Scale:</label>
-        <input id="minorAxisSlider" type="range" min="0.1" max="3" step="0.1" value="1">
-        <span id="minorAxisValue">1</span>
-    </div>
-    <div>
-        <label for="chaosSlider">Chaos:</label>
-        <input id="chaosSlider" type="range" min="0" max="100" value="0">
-        <span id="chaosValue">0</span>
-    </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-    // Scene setup
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x001F23); // Updated background color
-
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 20;
-
-    // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    // Electron parameters
-    let electronCount = 60;
-    let electrons = [];
-    let baseSpeed = 0.02;
-    let particleSize = 0.1;
-    let minorAxisScale = 1;
-    let chaosTargetValue = 100; // Target value for the chaos slider
-    let mousePressed = false; // Track mouse press state
-
-    // Calculate the maximum orbit size to dynamically adjust the nucleus glow
-    function calculateMaxOrbitSize() {
-        return Math.max(...electrons.map(e => Math.max(e.a, e.b)));
-    }
-
-    // Create nucleus with a dynamic glow effect
-    const nucleusGeometry = new THREE.SphereGeometry(1, 32, 32);
-    const nucleusMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0021 }); // Updated nucleus color
-
-    const nucleus = new THREE.Mesh(nucleusGeometry, nucleusMaterial);
-    scene.add(nucleus);
-
-    const nucleusGlowMaterial = new THREE.SpriteMaterial({
-        map: new THREE.CanvasTexture(generateGlowTexture(0xFF0021, 512)), // Updated glow color
-        blending: THREE.AdditiveBlending
-    });
-    const nucleusGlow = new THREE.Sprite(nucleusGlowMaterial);
-    nucleus.add(nucleusGlow);
-    
-    function updateNucleusGlow() {
-        const maxOrbitSize = calculateMaxOrbitSize();
-        nucleusGlow.scale.set(maxOrbitSize * 3, maxOrbitSize * 3, 1.0);
-    }
-
-    // Create electrons with vibrant color and glow effect
-    function createElectrons() {
-        // Remove existing electrons
-        electrons.forEach(electron => scene.remove(electron.mesh));
-        electrons = [];
-
-        for (let i = 0; i < electronCount; i++) {
-            const electronGeometry = new THREE.SphereGeometry(particleSize, 32, 32);
-            const electronMaterial = new THREE.MeshBasicMaterial({ color: 0x007A75 }); // Updated electron color
-            const electron = new THREE.Mesh(electronGeometry, electronMaterial);
-
-            const glowMaterial = new THREE.SpriteMaterial({
-                map: new THREE.CanvasTexture(generateGlowTexture(0x007A75, 128)), // Updated glow color
-                blending: THREE.AdditiveBlending
-            });
-            const glow = new THREE.Sprite(glowMaterial);
-            glow.scale.set(particleSize * 10, particleSize * 10, 1.0);
-            electron.add(glow);
-
-            scene.add(electron);
-
-            const angle = Math.random() * Math.PI * 2;
-            const b = (2 + Math.random() * 2) * minorAxisScale; // Semi-minor axis (y-axis radius) with adjustable scale
-            const a = b * 1.5; // Semi-major axis is 50% larger than the minor axis
-            let speed = baseSpeed * (0.75 + Math.random() * 0.5);
-            const orientation = Math.random() * Math.PI * 2; // Random orientation of the ellipse
-
-            // Randomly assign clockwise or counterclockwise movement
-            if (i < electronCount / 2) {
-                speed = -speed; // Counterclockwise
-            }
-
-            electrons.push({ mesh: electron, angle: angle, a: a, b: b, speed: speed, orientation: orientation });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Toggle function to show/hide the controls
+        function toggleControls() {
+            const controls = document.querySelector('.controls');
+            controls.style.display = controls.style.display === 'none' ? 'flex' : 'none';
         }
 
-        updateNucleusGlow(); // Update the nucleus glow size based on the maximum orbit size
-    }
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x001F23); // Updated background color
 
-    // Generate glow texture for the particles
-    function generateGlowTexture(color, size) {
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const context = canvas.getContext('2d');
-        const gradient = context.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
-        gradient.addColorStop(0, `rgba(${(color >> 16) & 255}, ${(color >> 8) & 255}, ${color & 255}, 1)`);
-        gradient.addColorStop(0.5, `rgba(${(color >> 16) & 255}, ${(color >> 8) & 255}, ${color & 255}, 0.5)`);
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        context.fillStyle = gradient;
-        context.fillRect(0, 0, size, size);
-        return canvas;
-    }
+        // Camera setup
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 20;
 
-    // Create initial electrons
-    createElectrons();
-
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Move electrons in 3D elliptical orbits with varying orientations
-        electrons.forEach(electron => {
-            electron.angle += electron.speed;
-            
-            // Introduce a phase shift for the z-axis to create a 3D effect
-            const zAmplitude = 1.5 * electron.b; // Adjust this factor for different levels of 3D effect
-            const zPhase = electron.angle * 0.5; // Slow down the z-axis movement
-            
-            electron.mesh.position.x = Math.cos(electron.angle) * electron.a * Math.cos(electron.orientation) - Math.sin(electron.angle) * electron.b * Math.sin(electron.orientation);
-            electron.mesh.position.y = Math.cos(electron.angle) * electron.a * Math.sin(electron.orientation) + Math.sin(electron.angle) * electron.b * Math.cos(electron.orientation);
-            electron.mesh.position.z = Math.sin(zPhase) * zAmplitude; // Adding movement in the z-axis
-        });
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
+        // Renderer setup
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    });
+        document.body.appendChild(renderer.domElement);
 
-    // Handle electron count slider
-    const electronCountSlider = document.getElementById('electronCountSlider');
-    const electronCountValue = document.getElementById('electronCountValue');
-    electronCountSlider.addEventListener('input', () => {
-        electronCount = parseInt(electronCountSlider.value, 10);
-        electronCountValue.textContent = electronCount;
-        createElectrons();
-    });
+        // Electron parameters
+        let electronCount = 60;
+        let electrons = [];
+        let baseSpeed = 0.02;
+        let particleSize = 0.1;
+        let minorAxisScale = 1;
+        let chaosTargetValue = 100; // Target value for the chaos slider
+        let mousePressed = false; // Track mouse press state
 
-    // Handle speed slider
-    const speedSlider = document.getElementById('speedSlider');
-    const speedValue = document.getElementById('speedValue');
-    speedSlider.addEventListener('input', () => {
-        const speedFactor = speedSlider.value / 50;
-        speedValue.textContent = speedSlider.value;
-        baseSpeed = 0.02 * speedFactor;
-        electrons.forEach(electron => {
-            let speed = baseSpeed * (0.75 + Math.random() * 0.5);
-            if (electrons.indexOf(electron) < electronCount / 2) {
-                speed = -speed; // Counterclockwise
+        // Microphone related variables
+        let audioContext;
+        let analyser;
+        let microphone;
+        let javascriptNode;
+        let maxSoundLevel = 0;
+        let targetSpeed = baseSpeed;
+
+        // Initialize the microphone
+        async function initMicrophone() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                microphone = audioContext.createMediaStreamSource(stream);
+                javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                microphone.connect(analyser);
+                analyser.connect(javascriptNode);
+                javascriptNode.connect(audioContext.destination);
+
+                javascriptNode.onaudioprocess = function () {
+                    const array = new Uint8Array(analyser.frequencyBinCount);
+                    analyser.getByteFrequencyData(array);
+                    const average = array.reduce((sum, value) => sum + value, 0) / array.length;
+                    maxSoundLevel = Math.max(maxSoundLevel, average);
+
+                    adjustSpeedBasedOnSound(average / maxSoundLevel);
+                };
+            } catch (error) {
+                console.error("Microphone initialization failed:", error);
             }
-            electron.speed = speed;
+        }
+
+        function adjustSpeedBasedOnSound(soundLevel) {
+            const speedFactor = 1 - soundLevel;
+            targetSpeed = baseSpeed * speedFactor;
+
+            electrons.forEach(electron => {
+                let speed = targetSpeed * (0.75 + Math.random() * 0.5);
+                if (electrons.indexOf(electron) < electronCount / 2) {
+                    speed = -speed; // Counterclockwise
+                }
+                electron.speed = speed;
+            });
+        }
+
+        // Calculate the maximum orbit size to dynamically adjust the nucleus glow
+        function calculateMaxOrbitSize() {
+            return Math.max(...electrons.map(e => Math.max(e.a, e.b)));
+        }
+
+        // Create nucleus with a dynamic glow effect
+        const nucleusGeometry = new THREE.SphereGeometry(1, 32, 32);
+        const nucleusMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0021 }); // Updated nucleus color
+
+        const nucleus = new THREE.Mesh(nucleusGeometry, nucleusMaterial);
+        scene.add(nucleus);
+
+        const nucleusGlowMaterial = new THREE.SpriteMaterial({
+            map: new THREE.CanvasTexture(generateGlowTexture(0xFF0021, 512)), // Updated glow color
+            blending: THREE.AdditiveBlending
         });
-    });
-
-    // Handle particle size slider
-    const particleSizeSlider = document.getElementById('particleSizeSlider');
-    const particleSizeValue = document.getElementById('particleSizeValue');
-    particleSizeSlider.addEventListener('input', () => {
-        particleSize = parseFloat(particleSizeSlider.value);
-        particleSizeValue.textContent = particleSize;
-        createElectrons();
-    });
-
-    // Handle minor axis slider
-    const minorAxisSlider = document.getElementById('minorAxisSlider');
-    const minorAxisValue = document.getElementById('minorAxisValue');
-    minorAxisSlider.addEventListener('input', () => {
-        minorAxisScale = parseFloat(minorAxisSlider.value);
-        minorAxisValue.textContent = minorAxisScale;
-        createElectrons();
-    });
-
-    // Handle chaos slider
-    const chaosSlider = document.getElementById('chaosSlider');
-    const chaosValue = document.getElementById('chaosValue');
-
-    function adjustChaosSlider() {
-        const currentChaosValue = parseFloat(chaosSlider.value);
-        const step = 1; // Step size for gradual change
-
-        if (currentChaosValue < chaosTargetValue) {
-            chaosSlider.value = Math.min(currentChaosValue + step, chaosTargetValue);
-        } else if (currentChaosValue > chaosTargetValue) {
-            chaosSlider.value = Math.max(currentChaosValue - step, chaosTargetValue);
+        const nucleusGlow = new THREE.Sprite(nucleusGlowMaterial);
+        nucleus.add(nucleusGlow);
+        
+        function updateNucleusGlow() {
+            const maxOrbitSize = calculateMaxOrbitSize();
+            nucleusGlow.scale.set(maxOrbitSize * 3, maxOrbitSize * 3, 1.0);
         }
 
-        chaosValue.textContent = chaosSlider.value;
+        // Create electrons with vibrant color and glow effect
+        function createElectrons() {
+            // Remove existing electrons
+            electrons.forEach(electron => scene.remove(electron.mesh));
+            electrons = [];
 
-        // Trigger the chaos slider's input event to apply changes
-        chaosSlider.dispatchEvent(new Event('input'));
+            for (let i = 0; i < electronCount; i++) {
+                const electronGeometry = new THREE.SphereGeometry(particleSize, 32, 32);
+                const electronMaterial = new THREE.MeshBasicMaterial({ color: 0x007A75 }); // Updated electron color
+                const electron = new THREE.Mesh(electronGeometry, electronMaterial);
 
-        // Continue adjusting until the chaos value matches the target
-        if (parseFloat(chaosSlider.value) !== chaosTargetValue) {
-            requestAnimationFrame(adjustChaosSlider);
+                const glowMaterial = new THREE.SpriteMaterial({
+                    map: new THREE.CanvasTexture(generateGlowTexture(0x007A75, 128)), // Updated glow color
+                    blending: THREE.AdditiveBlending
+                });
+                const glow = new THREE.Sprite(glowMaterial);
+                glow.scale.set(particleSize * 10, particleSize * 10, 1.0);
+                electron.add(glow);
+
+                scene.add(electron);
+
+                const angle = Math.random() * Math.PI * 2;
+                const b = (2 + Math.random() * 2) * minorAxisScale; // Semi-minor axis (y-axis radius) with adjustable scale
+                const a = b * 1.5; // Semi-major axis is 50% larger than the minor axis
+                let speed = baseSpeed * (0.75 + Math.random() * 0.5);
+                const orientation = Math.random() * Math.PI * 2; // Random orientation of the ellipse
+
+                // Randomly assign clockwise or counterclockwise movement
+                if (i < electronCount / 2) {
+                    speed = -speed; // Counterclockwise
+                }
+
+                electrons.push({ mesh: electron, angle: angle, a: a, b: b, speed: speed, orientation: orientation });
+            }
+
+            updateNucleusGlow(); // Update the nucleus glow size based on the maximum orbit size
         }
-    }
 
-    window.addEventListener('mousedown', () => {
-        mousePressed = true;
-        chaosTargetValue = 0;
-        adjustChaosSlider();
-    });
+        // Generate glow texture for the particles
+        function generateGlowTexture(color, size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const context = canvas.getContext('2d');
+            const gradient = context.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+            gradient.addColorStop(0, `rgba(${(color >> 16) & 255}, ${(color >> 8) & 255}, ${color & 255}, 1)`);
+            gradient.addColorStop(0.5, `rgba(${(color >> 16) & 255}, ${(color >> 8) & 255}, ${color & 255}, 0.5)`);
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, size, size);
+            return canvas;
+        }
 
-    window.addEventListener('mouseup', () => {
-        mousePressed = false;
-        chaosTargetValue = 100;
-        adjustChaosSlider();
-    });
+        // Create initial electrons
+        createElectrons();
 
-    chaosSlider.addEventListener('input', () => {
-        const chaosFactor = chaosSlider.value / 100;
-        chaosValue.textContent = chaosSlider.value;
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
 
-        // Adjust speed and minor axis based on chaos factor
-        speedSlider.value = 1 + chaosFactor * 99;
-        minorAxisSlider.value = 0.1 + chaosFactor * 2.9;
+            // Gradually adjust the speed towards the targetSpeed
+            electrons.forEach(electron => {
+                electron.speed += (targetSpeed - electron.speed) * 0.05;
+            });
 
-        // Update speed and minor axis values in the UI
-        speedValue.textContent = speedSlider.value;
-        minorAxisValue.textContent = minorAxisSlider.value;
+            // Move electrons in 3D elliptical orbits with varying orientations
+            electrons.forEach(electron => {
+                electron.angle += electron.speed;
+                
+                // Introduce a phase shift for the z-axis to create a 3D effect
+                const zAmplitude = 1.5 * electron.b; // Adjust this factor for different levels of 3D effect
+                const zPhase = electron.angle * 0.5; // Slow down the z-axis movement
+                
+                electron.mesh.position.x = Math.cos(electron.angle) * electron.a * Math.cos(electron.orientation) - Math.sin(electron.angle) * electron.b * Math.sin(electron.orientation);
+                electron.mesh.position.y = Math.cos(electron.angle) * electron.a * Math.sin(electron.orientation) + Math.sin(electron.angle) * electron.b * Math.cos(electron.orientation);
+                electron.mesh.position.z = Math.sin(zPhase) * zAmplitude; // Adding movement in the z-axis
+            });
 
-        // Trigger the corresponding slider events
-        speedSlider.dispatchEvent(new Event('input'));
-        minorAxisSlider.dispatchEvent(new Event('input'));
-    });
+            renderer.render(scene, camera);
+        }
 
-</script>
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        // Handle electron count slider
+        const electronCountSlider = document.getElementById('electronCountSlider');
+        const electronCountValue = document.getElementById('electronCountValue');
+        electronCountSlider.addEventListener('input', () => {
+            electronCount = parseInt(electronCountSlider.value, 10);
+            electronCountValue.textContent = electronCount;
+            createElectrons();
+        });
+
+        // Handle speed slider
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        speedSlider.addEventListener('input', () => {
+            const speedFactor = speedSlider.value / 50;
+            speedValue.textContent = speedSlider.value;
+            baseSpeed = 0.02 * speedFactor;
+            targetSpeed = baseSpeed; // Update target speed
+            electrons.forEach(electron => {
+                let speed = baseSpeed * (0.75 + Math.random() * 0.5);
+                if (electrons.indexOf(electron) < electronCount / 2) {
+                    speed = -speed; // Counterclockwise
+                }
+                electron.speed = speed;
+            });
+        });
+
+        // Handle particle size slider
+        const particleSizeSlider = document.getElementById('particleSizeSlider');
+        const particleSizeValue = document.getElementById('particleSizeValue');
+        particleSizeSlider.addEventListener('input', () => {
+            particleSize = parseFloat(particleSizeSlider.value);
+            particleSizeValue.textContent = particleSize;
+            createElectrons();
+        });
+
+        // Handle minor axis slider
+        const minorAxisSlider = document.getElementById('minorAxisSlider');
+        const minorAxisValue = document.getElementById('minorAxisValue');
+        minorAxisSlider.addEventListener('input', () => {
+            minorAxisScale = parseFloat(minorAxisSlider.value);
+            minorAxisValue.textContent = minorAxisScale;
+            createElectrons();
+        });
+
+        // Handle chaos slider
+        const chaosSlider = document.getElementById('chaosSlider');
+        const chaosValue = document.getElementById('chaosValue');
+
+        function adjustChaosSlider() {
+            const currentChaosValue = parseFloat(chaosSlider.value);
+            const step = 1; // Step size for gradual change
+
+            if (currentChaosValue < chaosTargetValue) {
+                chaosSlider.value = Math.min(currentChaosValue + step, chaosTargetValue);
+            } else if (currentChaosValue > chaosTargetValue) {
+                chaosSlider.value = Math.max(currentChaosValue - step, chaosTargetValue);
+            }
+
+            chaosValue.textContent = chaosSlider.value;
+
+            // Trigger the chaos slider's input event to apply changes
+            chaosSlider.dispatchEvent(new Event('input'));
+
+            // Continue adjusting until the chaos value matches the target
+            if (parseFloat(chaosSlider.value) !== chaosTargetValue) {
+                requestAnimationFrame(adjustChaosSlider);
+            }
+        }
+
+        window.addEventListener('mousedown', () => {
+            mousePressed = true;
+            chaosTargetValue = 0;
+            adjustChaosSlider();
+        });
+
+        window.addEventListener('mouseup', () => {
+            mousePressed = false;
+            chaosTargetValue = 100;
+            adjustChaosSlider();
+        });
+
+        chaosSlider.addEventListener('input', () => {
+            const chaosFactor = chaosSlider.value / 100;
+            chaosValue.textContent = chaosSlider.value;
+
+            // Adjust speed and minor axis based on chaos factor
+            speedSlider.value = 1 + chaosFactor * 99;
+            minorAxisSlider.value = 0.1 + chaosFactor * 2.9;
+
+            // Update speed and minor axis values in the UI
+            speedValue.textContent = speedSlider.value;
+            minorAxisValue.textContent = minorAxisSlider.value;
+
+            // Trigger the corresponding slider events
+            speedSlider.dispatchEvent(new Event('input'));
+            minorAxisSlider.dispatchEvent(new Event('input'));
+        });
+
+        // Initialize the microphone on page load
+        window.addEventListener('load', () => {
+            initMicrophone();
+        });
+
+    </script>
 </body>
 </html>
