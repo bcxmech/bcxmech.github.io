@@ -17,18 +17,21 @@
         }
         .container {
             background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
             text-align: center;
+            width: 300px;
         }
         h1 {
             font-size: 24px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            color: #333;
         }
         p {
             font-size: 18px;
-            margin: 10px 0;
+            margin: 15px 0;
+            color: #555;
         }
         button {
             padding: 10px 20px;
@@ -49,9 +52,9 @@
 
 <div class="container">
     <h1 id="phrase">Phrase</h1>
-    <p id="whereToUse">Where to Use: </p>
-    <p id="whenToUse">When to Use: </p>
-    <p id="example">Example: </p>
+    <p id="whereToUse">Where to Use:</p>
+    <p id="whenToUse">When to Use:</p>
+    <p id="example">Example:</p>
     <button onclick="showRandomPhrase()">Show Random Phrase</button>
 </div>
 
@@ -245,4 +248,74 @@
                 "examples": [
                     "I'm about to leave.",
                     "She's about to start the presentation.",
-                    "They're about to
+                    "They're about to make a decision.",
+                    "He's about to arrive.",
+                    "We're about to begin.",
+                    "I'm about to give up.",
+                    "She's about to cry.",
+                    "They're about to close the store."
+                ]
+            },
+            {
+                "phrase": "Opposite to",
+                "where_to_use": "To indicate something that contrasts with another.",
+                "when_to_use": "When showing a contrast or contradiction.",
+                "examples": [
+                    "Her opinion is opposite to mine.",
+                    "This street runs opposite to the park.",
+                    "His views are opposite to what I believe.",
+                    "The store is opposite to the bank.",
+                    "Her actions were opposite to her words.",
+                    "The results were opposite to our expectations.",
+                    "Their style is opposite to modern trends.",
+                    "The situation is opposite to what we thought."
+                ]
+            },
+            {
+                "phrase": "Unlike",
+                "where_to_use": "To show difference between things.",
+                "when_to_use": "When comparing two things that are different.",
+                "examples": [
+                    "Unlike her sister, she loves sports.",
+                    "This coffee is unlike any I've had before.",
+                    "He's unlike anyone I've ever met.",
+                    "The weather here is unlike that in my hometown.",
+                    "Unlike most people, he enjoys public speaking.",
+                    "This is unlike anything we've seen.",
+                    "Her approach is unlike the others.",
+                    "Unlike last time, the event was a success."
+                ]
+            },
+            {
+                "phrase": "Together with",
+                "where_to_use": "To show accompaniment or partnership.",
+                "when_to_use": "When someone or something is accompanying another.",
+                "examples": [
+                    "She went to the concert together with her friends.",
+                    "The proposal was submitted together with the budget.",
+                    "They worked together with the team.",
+                    "He sings together with his band.",
+                    "She left together with her family.",
+                    "We built this project together with our partners.",
+                    "He completed the assignment together with his classmates.",
+                    "They walked together with their dog."
+                ]
+            }
+        ]
+    };
+
+    function showRandomPhrase() {
+        const randomIndex = Math.floor(Math.random() * data.phrases.length);
+        const phraseData = data.phrases[randomIndex];
+        const randomExampleIndex = Math.floor(Math.random() * phraseData.examples.length);
+        const randomExample = phraseData.examples[randomExampleIndex];
+
+        document.getElementById('phrase').innerText = phraseData.phrase;
+        document.getElementById('whereToUse').innerText = 'Where to Use: ' + phraseData.where_to_use;
+        document.getElementById('whenToUse').innerText = 'When to Use: ' + phraseData.when_to_use;
+        document.getElementById('example').innerText = 'Example: ' + randomExample;
+    }
+</script>
+
+</body>
+</html>
