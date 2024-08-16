@@ -447,6 +447,86 @@
                 "He’s busy, and on top of that, he’s not feeling well.",
                 "We have a tight deadline, and on top of that, the client changed the requirements."
             ]
+        },
+                {
+            "phrase": "As I was saying",
+            "where_to_use": "To refer back to something mentioned earlier.",
+            "when_to_use": "When you want to continue or resume a previous point in a conversation.",
+            "examples": [
+                "As I was saying, we need to improve our communication.",
+                "As I was saying, the project deadline is approaching.",
+                "As I was saying before we were interrupted, the budget is tight."
+            ]
+        },
+        {
+            "phrase": "As it were",
+            "where_to_use": "To suggest that a statement should not be taken literally.",
+            "when_to_use": "When making a statement that requires a bit of interpretation.",
+            "examples": [
+                "He is the leader of the group, as it were.",
+                "The company is, as it were, a family.",
+                "This is, as it were, the heart of the problem."
+            ]
+        },
+        {
+            "phrase": "I mean",
+            "where_to_use": "To clarify or restate something in a different way.",
+            "when_to_use": "When explaining or correcting something you just said.",
+            "examples": [
+                "I mean, we should focus on quality over quantity.",
+                "I mean, it's not that I don't like it, it's just not my style.",
+                "I mean, it's a complicated issue."
+            ]
+        },
+        {
+            "phrase": "If you like",
+            "where_to_use": "To offer a suggestion or give permission.",
+            "when_to_use": "When giving someone the option to decide.",
+            "examples": [
+                "We can leave now, if you like.",
+                "You can add more sugar, if you like.",
+                "We could go for a walk, if you like."
+            ]
+        },
+        {
+            "phrase": "In a manner of speaking",
+            "where_to_use": "To express something in a figurative or indirect way.",
+            "when_to_use": "When speaking metaphorically or not literally.",
+            "examples": [
+                "She is, in a manner of speaking, the backbone of the team.",
+                "He saved the day, in a manner of speaking.",
+                "They've moved on, in a manner of speaking."
+            ]
+        },
+        {
+            "phrase": "In other words",
+            "where_to_use": "To rephrase or clarify a statement.",
+            "when_to_use": "When explaining something in a different way to make it clearer.",
+            "examples": [
+                "He was exhausted, in other words, he was too tired to continue.",
+                "The project is delayed, in other words, we need more time.",
+                "She didn't agree, in other words, she said no."
+            ]
+        },
+        {
+            "phrase": "Not to say",
+            "where_to_use": "To introduce an exception or clarify what you do not mean.",
+            "when_to_use": "When you want to exclude a possible interpretation of what you are saying.",
+            "examples": [
+                "He's talented, not to say a genius.",
+                "It was a difficult situation, not to say impossible.",
+                "The meeting was long, not to say boring."
+            ]
+        },
+        {
+            "phrase": "Or rather",
+            "where_to_use": "To correct or modify a previous statement.",
+            "when_to_use": "When you need to change or refine something you just said.",
+            "examples": [
+                "She likes classical music, or rather, she loves it.",
+                "He was happy, or rather, relieved.",
+                "It was confusing, or rather, challenging."
+            ]
         }
     ]
 }
